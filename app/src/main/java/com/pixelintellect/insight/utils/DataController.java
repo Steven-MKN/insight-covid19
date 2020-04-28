@@ -1,4 +1,4 @@
-package com.pixelintellect.insightcovid19.utils;
+package com.pixelintellect.insight.utils;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,8 +9,8 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.pixelintellect.insightcovid19.utils.models.ProvincialCumulativeConfirmedModel;
-import com.pixelintellect.insightcovid19.utils.models.TestingTimelineModel;
+import com.pixelintellect.insight.utils.models.ProvincialCumulativeConfirmedModel;
+import com.pixelintellect.insight.utils.models.TestingTimelineModel;
 
 import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class DataController {
-    private final String TAG = "com.pixelintellect.insightcovid19.utils.DataController";
+    private final String TAG = "com.pixelintellect.insight.utils.DataController";
     private SharedPreferences sp;
 
     private final String baseCsvUrl = "https://raw.githubusercontent.com/dsfsi/covid19za/master/data/";
@@ -82,7 +82,8 @@ public class DataController {
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.i(TAG, "error getting csv");
                 e.printStackTrace();
-                c.sendBroadcast(new Intent(action).putExtra(Constants.MESSAGE, "No internet connection"));
+                Intent intent = new Intent(action).putExtra(Constants.MESSAGE, "No internet connection");
+                c.sendBroadcast(intent);
             }
 
             @Override
@@ -114,7 +115,8 @@ public class DataController {
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.i(TAG, "error getting csv");
                 e.printStackTrace();
-                c.sendBroadcast(new Intent(action).putExtra(Constants.MESSAGE, "No internet connection"));
+                Intent intent = new Intent(action).putExtra(Constants.MESSAGE, "No internet connection");
+                c.sendBroadcast(intent);
             }
 
             @Override
@@ -157,7 +159,7 @@ public class DataController {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-YYYY");
         Date date = new Date();
         Log.i(TAG, "last update: " + df.format(date));
-        sp.edit().putString(Constants.LAST_UPDATE, df.format(date));
+        sp.edit().putString(Constants.LAST_UPDATE, df.format(date)).apply();
     }
 
     public void loadData(){

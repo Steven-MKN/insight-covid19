@@ -1,18 +1,13 @@
-package com.pixelintellect.insightcovid19;
+package com.pixelintellect.insight;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.usage.NetworkStats;
-import android.app.usage.NetworkStatsManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,14 +16,11 @@ import android.widget.TextView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.pixelintellect.insightcovid19.utils.Constants;
-import com.pixelintellect.insightcovid19.utils.DataController;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.pixelintellect.insight.utils.Constants;
+import com.pixelintellect.insight.utils.DataController;
 
 public class SplashActivity extends AppCompatActivity {
-    private String TAG = "com.pixelintellect.insightcovid19.SplashActivity";
+    private String TAG = "com.pixelintellect.insight.SplashActivity";
     private TextView tvMessage;
 
     @Override
@@ -71,7 +63,7 @@ public class SplashActivity extends AppCompatActivity {
                 public void onReceive(Context context, Intent intent) {
                     Log.i(TAG, "splash br got broadcast");
                     String m = intent.getStringExtra(Constants.MESSAGE);
-
+                    context.unregisterReceiver(this);
                     next(m);
                 }
             };

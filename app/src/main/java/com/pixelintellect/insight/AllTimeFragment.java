@@ -1,4 +1,4 @@
-package com.pixelintellect.insightcovid19;
+package com.pixelintellect.insight;
 
 import android.graphics.Point;
 import android.os.Bundle;
@@ -17,12 +17,9 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Cartesian;
-import com.anychart.charts.Pie;
-import com.anychart.core.lineargauge.pointers.Bar;
-import com.anychart.core.ui.table.Column;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.pixelintellect.insightcovid19.utils.AppData;
+import com.pixelintellect.insight.utils.AppData;
 
 import java.util.ArrayList;
 import java.util.List;

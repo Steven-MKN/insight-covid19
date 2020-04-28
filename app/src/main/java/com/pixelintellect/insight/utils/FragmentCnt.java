@@ -1,6 +1,5 @@
-package com.pixelintellect.insightcovid19.utils;
+package com.pixelintellect.insight.utils;
 
-import android.view.View;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

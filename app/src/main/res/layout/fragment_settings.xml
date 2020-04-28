@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"></com.google.android.gms.ads.AdView>
+        ads:adUnitId="ca-app-pub-6706574941693342/3381381938"></com.google.android.gms.ads.AdView>
     <!--ca-app-pub-6706574941693342/3381381938-->
 
     <Switch

@@ -1,4 +1,4 @@
-package com.pixelintellect.insightcovid19.utils.models;
+package com.pixelintellect.insight.utils.models;
 
 import java.util.Date;
 

@@ -1,10 +1,10 @@
-package com.pixelintellect.insightcovid19.utils;
+package com.pixelintellect.insight.utils;
 
 import android.util.Log;
 
-import com.pixelintellect.insightcovid19.utils.models.DeathsModel;
-import com.pixelintellect.insightcovid19.utils.models.ProvincialCumulativeConfirmedModel;
-import com.pixelintellect.insightcovid19.utils.models.TestingTimelineModel;
+import com.pixelintellect.insight.utils.models.DeathsModel;
+import com.pixelintellect.insight.utils.models.ProvincialCumulativeConfirmedModel;
+import com.pixelintellect.insight.utils.models.TestingTimelineModel;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class CsvMappers {
-    private static final String TAG = "com.pixelintellect.insightcovid19.utils.CsvMappers";
+    private static final String TAG = "com.pixelintellect.insight.utils.CsvMappers";
 
     public static ArrayList<DeathsModel> mapDeathsCsv(String s){
         String lines[] = s.split("\n");

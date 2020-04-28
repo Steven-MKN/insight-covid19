@@ -1,4 +1,4 @@
-package com.pixelintellect.insightcovid19.utils;
+package com.pixelintellect.insight.utils;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,11 +12,10 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.pixelintellect.insightcovid19.R;
-import com.pixelintellect.insightcovid19.SplashActivity;
-import com.pixelintellect.insightcovid19.utils.models.ProvincialCumulativeConfirmedModel;
+import com.pixelintellect.insight.R;
+import com.pixelintellect.insight.SplashActivity;
+import com.pixelintellect.insight.utils.models.ProvincialCumulativeConfirmedModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -32,8 +31,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class CovidUpdateJobService extends JobService {
-    private final String TAG = "com.pixelintellect.insightcovid19.utils.CovidUpdateJobService";
+public class UpdateJobService extends JobService {
+    private final String TAG = "com.pixelintellect.insight.utils.CovidUpdateJobService";
     private final String baseCsvUrl = "https://raw.githubusercontent.com/dsfsi/covid19za/master/data/";
     private final String provincialConfirmedCasesCsvUrl = "covid19za_provincial_cumulative_timeline_confirmed.csv";
 
@@ -66,13 +65,12 @@ public class CovidUpdateJobService extends JobService {
 
                 try {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                    Date today = new Date();
+                    String lastUpdateDateStr = getSharedPreferences(getPackageName(), MODE_PRIVATE).getString(Constants.LAST_UPDATE, null);
+                    Date lastUpdateDate = simpleDateFormat.parse(lastUpdateDateStr);
+
                     Date dataDate = confirmedCases.get(confirmedCases.size() - 1).getDate();
 
-                    String todayStr = simpleDateFormat.format(today),
-                            dataDateStr = simpleDateFormat.format(dataDate);
-
-                    if (todayStr.equals(dataDateStr)){
+                    if (lastUpdateDate != null && lastUpdateDate.before(dataDate)){
                         Log.i(TAG, "new data found");
                         // send notification
                         setNotification();
@@ -92,22 +90,21 @@ public class CovidUpdateJobService extends JobService {
 
         createNotificationChannel(CHANNEL_ID);
 
-        // Create an explicit intent for an Activity in your app
+        // Create an explicit intent for activity
+        Intent intent = new Intent(this, SplashActivity.class);
+        intent.putExtra(Constants.UPDATES, true);
 
-        Intent snoozeIntent = new Intent(this, SplashActivity.class);
-        snoozeIntent.setAction(getPackageName()+"open_app");
-        snoozeIntent.putExtra(Constants.UPDATES, true);
-        PendingIntent snoozePendingIntent =
-                PendingIntent.getBroadcast(this, 0, snoozeIntent, 0);
+        PendingIntent pendingIntent =
+                PendingIntent.getActivity(this, 0, intent, 0);
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.logo_only_small)
+                .setSmallIcon(R.drawable.logo_trans)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText("New updates on the Covid19 SA")
-                .setContentIntent(snoozePendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(false);
+                .setContentText("New updated data available")
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
@@ -118,16 +115,16 @@ public class CovidUpdateJobService extends JobService {
     }
 
     private void createNotificationChannel(String CHANNEL_ID) {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
+        // Create the NotificationChannel for API 26+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Insight Covid19 Data Updates";
-            String description = "Updates on Covid19 data";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
+            CharSequence name = "Insight Data Updates";
+            String description = "Updates on data in SA";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
+
+            // Register the channel with the system
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }

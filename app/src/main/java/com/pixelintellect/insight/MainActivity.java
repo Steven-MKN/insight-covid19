@@ -1,28 +1,20 @@
-package com.pixelintellect.insightcovid19;
+package com.pixelintellect.insight;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-
-import com.google.android.material.bottomnavigation.BottomNavigationMenu;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.pixelintellect.insightcovid19.utils.Constants;
-import com.pixelintellect.insightcovid19.utils.DataController;
-import com.pixelintellect.insightcovid19.utils.FragmentCnt;
+import com.pixelintellect.insight.utils.Constants;
+import com.pixelintellect.insight.utils.DataController;
+import com.pixelintellect.insight.utils.FragmentCnt;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
-    private final String TAG = "com.pixelintellect.insightcovid19.MainActivity";
+    private final String TAG = "com.pixelintellect.insight.MainActivity";
     private BottomNavigationView bottomNavigationMenu;
-
-    private final String COVID_DB = "InsightCovidDb";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,9 +1,7 @@
-package com.pixelintellect.insightcovid19.utils;
+package com.pixelintellect.insight.utils;
 
-import android.content.Intent;
-
-import com.pixelintellect.insightcovid19.utils.models.ProvincialCumulativeConfirmedModel;
-import com.pixelintellect.insightcovid19.utils.models.TestingTimelineModel;
+import com.pixelintellect.insight.utils.models.ProvincialCumulativeConfirmedModel;
+import com.pixelintellect.insight.utils.models.TestingTimelineModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

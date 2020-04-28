@@ -1,4 +1,4 @@
-package com.pixelintellect.insightcovid19;
+package com.pixelintellect.insight;
 
 import android.content.Context;
 

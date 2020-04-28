@@ -1,4 +1,4 @@
-package com.pixelintellect.insightcovid19;
+package com.pixelintellect.insight;
 
 import android.app.AlertDialog;
 import android.app.job.JobInfo;
@@ -8,15 +8,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -26,23 +23,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.anychart.AnyChart;
-import com.anychart.AnyChartView;
-import com.anychart.chart.common.dataentry.DataEntry;
-import com.anychart.chart.common.dataentry.ValueDataEntry;
-import com.anychart.charts.Pie;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.pixelintellect.insightcovid19.utils.Constants;
-import com.pixelintellect.insightcovid19.utils.CovidUpdateJobService;
-import com.pixelintellect.insightcovid19.utils.DataController;
-import com.pixelintellect.insightcovid19.utils.FragmentCnt;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.pixelintellect.insight.utils.Constants;
+import com.pixelintellect.insight.utils.DataController;
+import com.pixelintellect.insight.utils.UpdateJobService;
 
 public class SettingsFragment extends Fragment {
-    private final String TAG = "com.pixelintellect.insightcovid19.SettingsFragment";
+    private final String TAG = "com.pixelintellect.insight.SettingsFragment";
     private Button btnRefresh, btnPrivacyPolicy;
     private Switch switchNotifications;
 
@@ -70,7 +58,7 @@ public class SettingsFragment extends Fragment {
         btnPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String url = "https://pixelintellect.co.za/apps/insight_covid19/privacy-policy.html";
+            String url = "https://pixelintellect.co.za/apps/insight/privacy-policy.html";
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
@@ -80,11 +68,12 @@ public class SettingsFragment extends Fragment {
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btnRefresh.setEnabled(false);
+                btnRefresh.setClickable(false);
                 BroadcastReceiver br = new BroadcastReceiver() {
                     @Override
                     public void onReceive(Context context, Intent intent) {
-                        btnRefresh.setEnabled(true);
+                        context.unregisterReceiver(this);
+                        if (btnRefresh != null) btnRefresh.setClickable(true);
                         String message = intent.getStringExtra(Constants.MESSAGE);
                         if (message == null) message = "Done!";
                         alert(message);
@@ -103,9 +92,9 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    ComponentName componentName = new ComponentName(getActivity().getApplicationContext(), CovidUpdateJobService.class);
+                    ComponentName componentName = new ComponentName(getActivity().getApplicationContext(), UpdateJobService.class);
                     JobInfo.Builder builder = new JobInfo.Builder(123, componentName)
-                            .setPeriodic(15 * 60 * 1000);
+                            .setPeriodic(60 * 60 * 1000);
 
                     builder.setPersisted(true);
 

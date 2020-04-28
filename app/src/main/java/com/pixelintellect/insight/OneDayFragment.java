@@ -1,4 +1,4 @@
-package com.pixelintellect.insightcovid19;
+package com.pixelintellect.insight;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,16 +22,16 @@ import com.anychart.charts.Pie;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
-import com.pixelintellect.insightcovid19.utils.AppData;
-import com.pixelintellect.insightcovid19.utils.Constants;
-import com.pixelintellect.insightcovid19.utils.models.DeathsModel;
+import com.pixelintellect.insight.utils.AppData;
+import com.pixelintellect.insight.utils.Constants;
+import com.pixelintellect.insight.utils.models.DeathsModel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class OneDayFragment extends Fragment {
-    private String TAG = "com.pixelintellect.insightcovid19.OneDayFragment";
+    private String TAG = "com.pixelintellect.insight.OneDayFragment";
     private AnyChartView pieProvinceView;
     private TextView tvdeathsNumber, tvPositivesNumber, tvRecoveredNumber, tvTestsNumber, tvProvincesDate, tvDate;
     private AdView adView;
