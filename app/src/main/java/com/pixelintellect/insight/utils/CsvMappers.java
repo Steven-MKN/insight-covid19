@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class CsvMappers {
-    private static final String TAG = "com.pixelintellect.insight.utils.CsvMappers";
+    private static final String TAG = "CsvMappers";
 
     public static ArrayList<DeathsModel> mapDeathsCsv(String s){
         String lines[] = s.split("\n");

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OneDayFragment extends Fragment {
-    private String TAG = "com.pixelintellect.insight.OneDayFragment";
+    private String TAG = "OneDayFragment";
     private AnyChartView pieProvinceView;
     private TextView tvdeathsNumber, tvPositivesNumber, tvRecoveredNumber, tvTestsNumber, tvProvincesDate, tvDate;
 

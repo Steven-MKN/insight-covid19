@@ -17,7 +17,7 @@ import com.pixelintellect.insight.utils.Constants;
 import com.pixelintellect.insight.utils.DataController;
 
 public class SplashActivity extends AppCompatActivity {
-    private String TAG = "com.pixelintellect.insight.SplashActivity";
+    private String TAG = "SplashActivity";
     private TextView tvMessage;
 
     @Override

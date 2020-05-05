@@ -32,7 +32,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class UpdateJobService extends JobService {
-    private final String TAG = "com.pixelintellect.insight.utils.CovidUpdateJobService";
+    private final String TAG = "CovidUpdateJobService";
     private final String baseCsvUrl = "https://raw.githubusercontent.com/dsfsi/covid19za/master/data/";
     private final String provincialConfirmedCasesCsvUrl = "covid19za_provincial_cumulative_timeline_confirmed.csv";
 
@@ -59,8 +59,6 @@ public class UpdateJobService extends JobService {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 Log.i(TAG, "got csv");
 
-                Type token = new TypeToken<ArrayList<ProvincialCumulativeConfirmedModel>>() {
-                }.getType();
                 ArrayList<ProvincialCumulativeConfirmedModel> confirmedCases = CsvMappers.mapProvincialConfirmedCasesCsv(response.body().string());
 
                 try {
@@ -72,7 +70,6 @@ public class UpdateJobService extends JobService {
 
                     if (lastUpdateDate != null && lastUpdateDate.before(dataDate)){
                         Log.i(TAG, "new data found");
-                        // send notification
                         setNotification();
                     }
                     jobFinished(params, false);
@@ -108,8 +105,6 @@ public class UpdateJobService extends JobService {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
-
-        // notificationId is a unique int for each notification that you must define
         notificationManager.notify(notificationId, builder.build());
 
     }

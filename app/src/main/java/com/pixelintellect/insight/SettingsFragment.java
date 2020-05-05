@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,8 +28,10 @@ import com.pixelintellect.insight.utils.Constants;
 import com.pixelintellect.insight.utils.DataController;
 import com.pixelintellect.insight.utils.UpdateJobService;
 
+import java.util.List;
+
 public class SettingsFragment extends Fragment {
-    private final String TAG = "com.pixelintellect.insight.SettingsFragment";
+    private final String TAG = "SettingsFragment";
     private Button btnRefresh, btnPrivacyPolicy;
     private Switch switchNotifications;
 
@@ -48,10 +51,21 @@ public class SettingsFragment extends Fragment {
 
         //
         JobScheduler scheduler = (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        if (scheduler != null)
-            if (scheduler.getPendingJob(123) != null)
-                switchNotifications.setChecked(true);
-            else switchNotifications.setChecked(false);
+        if (scheduler != null){
+            if (Build.VERSION.SDK_INT >= 24) {
+                if (scheduler.getPendingJob(123) != null)
+                    switchNotifications.setChecked(true);
+                else switchNotifications.setChecked(false);
+            } else {
+                List<JobInfo> jobs = scheduler.getAllPendingJobs();
+                boolean exists = false;
+                for (JobInfo job: jobs){
+                    if (job.getId() == 123) exists = true;
+                }
+                if (exists) switchNotifications.setChecked(true);
+                else switchNotifications.setChecked(false);
+            }
+        }
 
         btnPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
