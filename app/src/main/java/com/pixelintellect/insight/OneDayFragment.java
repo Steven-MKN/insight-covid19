@@ -2,10 +2,8 @@ package com.pixelintellect.insight;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,12 +17,7 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Pie;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.gson.Gson;
 import com.pixelintellect.insight.utils.AppData;
-import com.pixelintellect.insight.utils.Constants;
-import com.pixelintellect.insight.utils.models.DeathsModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +27,6 @@ public class OneDayFragment extends Fragment {
     private String TAG = "com.pixelintellect.insight.OneDayFragment";
     private AnyChartView pieProvinceView;
     private TextView tvdeathsNumber, tvPositivesNumber, tvRecoveredNumber, tvTestsNumber, tvProvincesDate, tvDate;
-    private AdView adView;
 
     public static OneDayFragment newInstance(){
         Log.i("tag", "OneDayFragment");
@@ -53,7 +45,6 @@ public class OneDayFragment extends Fragment {
         tvTestsNumber = view.findViewById(R.id.textViewTestsNumber);
         tvProvincesDate = view.findViewById(R.id.textViewPieProvincesUpdateDate);
         tvDate = view.findViewById(R.id.textViewLatestDate);
-        adView = view.findViewById(R.id.adView1);
 
         return view;
     }
@@ -71,13 +62,6 @@ public class OneDayFragment extends Fragment {
         tvDate.setText(appData.getLatestDate());
 
         setUpPieChart();
-
-        try {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
     private void setUpPieChart(){

@@ -13,9 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.pixelintellect.insight.utils.Constants;
 import com.pixelintellect.insight.utils.DataController;
 
@@ -27,13 +24,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-                Log.i(TAG, "admob init = " + initializationStatus.toString());
-            }
-        });
 
         tvMessage = findViewById(R.id.textViewDownloadingData);
     }

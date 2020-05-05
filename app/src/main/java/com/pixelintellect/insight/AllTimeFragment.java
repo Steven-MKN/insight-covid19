@@ -17,8 +17,6 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Cartesian;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.pixelintellect.insight.utils.AppData;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.Map;
 public class AllTimeFragment extends Fragment {
     private AnyChartView barProvinceView;
     private TextView tvdeathsNumber, tvPositivesNumber, tvRecoveredNumber, tvTestsNumber, tvDate, tvBarUpdateDate;
-    private AdView adView;
 
     public static AllTimeFragment newInstance(){
         Log.i("tag", "OneDayFragment");
@@ -48,7 +45,6 @@ public class AllTimeFragment extends Fragment {
         tvTestsNumber = view.findViewById(R.id.textViewTotalTestsNumber);
         tvDate = view.findViewById(R.id.textViewDateAllTime);
         tvBarUpdateDate = view.findViewById(R.id.textViewBarAllTimeUpdateDate);
-        adView = view.findViewById(R.id.adView2);
 
         return view;
     }
@@ -64,13 +60,6 @@ public class AllTimeFragment extends Fragment {
         tvRecoveredNumber.setText(appData.getRecovered());
         tvTestsNumber.setText(appData.getTests());
         tvDate.setText(appData.getLatestDate());
-
-        try {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
 
         try {
             setUpBarChart();

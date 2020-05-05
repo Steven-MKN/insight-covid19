@@ -23,8 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.pixelintellect.insight.utils.Constants;
 import com.pixelintellect.insight.utils.DataController;
 import com.pixelintellect.insight.utils.UpdateJobService;
@@ -124,14 +122,6 @@ public class SettingsFragment extends Fragment {
                 }
             }
         });
-
-        try {
-            AdView adView = view.findViewById(R.id.adView);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
 
         return view;
     }
