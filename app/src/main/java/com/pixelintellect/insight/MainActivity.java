@@ -13,7 +13,7 @@ import com.pixelintellect.insight.utils.DataController;
 import com.pixelintellect.insight.utils.FragmentCnt;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
-    private final String TAG = "com.pixelintellect.insight.MainActivity";
+    private final String TAG = "MainActivity";
     private BottomNavigationView bottomNavigationMenu;
 
     @Override

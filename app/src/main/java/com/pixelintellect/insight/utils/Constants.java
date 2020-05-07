@@ -8,4 +8,15 @@ public class Constants {
     public static final String MESSAGE = "message";
     public static final String ACTION_CSV = "pi_csv_download_comp";
     public static final String UPDATES = "IS_THERE_UPDATES";
+    public static final String EASTERN_CAPE = "EC";
+    public static final String GAUTENG = "GP";
+    public static final String NORTH_WEST = "NW";
+    public static final String FREE_STATE = "FS";
+    public static final String WESTERN_CAPE = "WC";
+    public static final String LIMPOPO = "LP";
+    public static final String MPUMALANGA = "MP";
+    public static final String NORTHERN_CAPE = "NC";
+    public static final String KWA_ZULU_NATAL = "KZN";
+    public static final String UNKNOWN = "?";
+    public static final String DATE = "date";
 }

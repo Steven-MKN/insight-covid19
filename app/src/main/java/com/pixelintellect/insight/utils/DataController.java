@@ -26,7 +26,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class DataController {
-    private final String TAG = "com.pixelintellect.insight.utils.DataController";
+    private final String TAG = "DataController";
     private SharedPreferences sp;
 
     private final String baseCsvUrl = "https://raw.githubusercontent.com/dsfsi/covid19za/master/data/";
