@@ -11,8 +11,7 @@ The app provides users with a visual representation of the data, mainly tests pe
 Data [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 
 ## Screenshots
-![screen shot 1](https://raw.githubusercontent.com/Steven-MKN/insight-covid19/master/app/screen_shots/screen_shot_1.png =700x1243)
-![screen shot 2](https://raw.githubusercontent.com/Steven-MKN/insight-covid19/master/app/screen_shots/screen_shot_2.png =700x1243)
+<img src="https://raw.githubusercontent.com/Steven-MKN/insight-covid19/master/app/screen_shots/screen_shot_1.png" alt="screen shot 1" width="250"/> <img src="https://raw.githubusercontent.com/Steven-MKN/insight-covid19/master/app/screen_shots/screen_shot_2.png" alt="screen shot 2" width="250"/>
 
 ## Third-party software
 
