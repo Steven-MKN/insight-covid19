@@ -1,6 +1,5 @@
 package com.pixelintellect.insight;
 
-import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,19 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.anychart.AnyChart;
-import com.anychart.AnyChartView;
-import com.anychart.chart.common.dataentry.DataEntry;
-import com.anychart.chart.common.dataentry.ValueDataEntry;
-import com.anychart.charts.Cartesian;
 import com.pixelintellect.insight.utils.AppData;
-
+import com.pixelintellect.insight.utils.Constants;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
+import im.dacer.androidcharts.BarView;
+
 public class AllTimeFragment extends Fragment {
-    private AnyChartView barProvinceView;
+    //private AnyChartView barProvinceView;
     private TextView tvdeathsNumber, tvPositivesNumber, tvRecoveredNumber, tvTestsNumber, tvDate, tvBarUpdateDate;
 
     public static AllTimeFragment newInstance(){
@@ -38,7 +33,7 @@ public class AllTimeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all_time, container, false);
 
         //init views
-        barProvinceView = view.findViewById(R.id.barChartAllTimePositives);
+        //barProvinceView = view.findViewById(R.id.barChartAllTimePositives);
         tvdeathsNumber = view.findViewById(R.id.textViewTotalDeathsNumber);
         tvPositivesNumber = view.findViewById(R.id.textViewTotalPositiveCasesNumber);
         tvRecoveredNumber = view.findViewById(R.id.textViewTotalRecoveredNumber);
@@ -69,34 +64,45 @@ public class AllTimeFragment extends Fragment {
     }
 
     private void setUpBarChart(){
-        // adjust chart sizes
-        ViewGroup.LayoutParams params = barProvinceView.getLayoutParams();
-        Point point = new Point();
-        getActivity().getWindowManager().getDefaultDisplay().getSize(point);
-
-        params.height = point.x + 60;
-        params.width = point.x - 15;
-
-        barProvinceView.setLayoutParams(params);
-
         // display data
-        List<DataEntry> dataEntries = new ArrayList<>();
         Map<String, String> provincalPositives = AppData.getInstance().getProvincialPositives();
+        ArrayList<Integer> dataEntries = new ArrayList<>();
+        ArrayList provinces = new ArrayList();
+        BarView barView = getView().findViewById(R.id.barChartAllTimePositives);
 
-        dataEntries.add(new ValueDataEntry("Gauteng", Integer.parseInt(provincalPositives.get("GP"))));
-        dataEntries.add(new ValueDataEntry("Western Cape", Integer.parseInt(provincalPositives.get("WC"))));
-        dataEntries.add(new ValueDataEntry("Kwa-Zulu Natal", Integer.parseInt(provincalPositives.get("KZN"))));
-        dataEntries.add(new ValueDataEntry("North West", Integer.parseInt(provincalPositives.get("NW"))));
-        dataEntries.add(new ValueDataEntry("Northern Cape", Integer.parseInt(provincalPositives.get("NC"))));
-        dataEntries.add(new ValueDataEntry("Limpopo", Integer.parseInt(provincalPositives.get("LP"))));
-        dataEntries.add(new ValueDataEntry("Mpumalanga", Integer.parseInt(provincalPositives.get("MP"))));
-        dataEntries.add(new ValueDataEntry("Eastern Cape", Integer.parseInt(provincalPositives.get("EC"))));
-        dataEntries.add(new ValueDataEntry("Free State", Integer.parseInt(provincalPositives.get("FS"))));
+        provinces.add(Constants.GAUTENG + ": " + provincalPositives.get(Constants.GAUTENG));
+        provinces.add(Constants.WESTERN_CAPE + ": " + provincalPositives.get(Constants.WESTERN_CAPE));
+        provinces.add(Constants.KWA_ZULU_NATAL + ": " + provincalPositives.get(Constants.KWA_ZULU_NATAL));
+        provinces.add(Constants.EASTERN_CAPE + ": " + provincalPositives.get(Constants.EASTERN_CAPE));
+        provinces.add(Constants.FREE_STATE + ": " + provincalPositives.get(Constants.FREE_STATE));
+        provinces.add(Constants.LIMPOPO + ": " + provincalPositives.get(Constants.LIMPOPO));
+        provinces.add(Constants.NORTH_WEST + ": " + provincalPositives.get(Constants.NORTH_WEST));
+        provinces.add(Constants.MPUMALANGA + ": " + provincalPositives.get(Constants.MPUMALANGA));
+        provinces.add(Constants.NORTHERN_CAPE + ": " + provincalPositives.get(Constants.NORTHERN_CAPE));
+        if (!provincalPositives.get(Constants.UNKNOWN).equals("0"))
+            provinces.add(Constants.UNKNOWN + ": " + provincalPositives.get(Constants.UNKNOWN));
 
-        Cartesian bar = AnyChart.column();
-        bar.data(dataEntries);
+        barView.setBottomTextList(provinces);
 
-        barProvinceView.setChart(bar);
-        tvBarUpdateDate.setText(provincalPositives.get("date"));
+        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.GAUTENG)));
+        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.WESTERN_CAPE)));
+        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.KWA_ZULU_NATAL)));
+        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.NORTH_WEST)));
+        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.NORTHERN_CAPE)));
+        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.LIMPOPO)));
+        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.MPUMALANGA)));
+        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.EASTERN_CAPE)));
+        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.FREE_STATE)));
+        if (!provincalPositives.get(Constants.UNKNOWN).equals("0"))
+            dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.UNKNOWN)));
+
+        // find max
+        int max = Integer.MIN_VALUE;
+        for (int data : dataEntries) {
+            if (data > max) max = data;
+        }
+
+        barView.setDataList(dataEntries, (int) (max * 1.3));
+        tvBarUpdateDate.setText(provincalPositives.get(Constants.DATE));
     }
 }

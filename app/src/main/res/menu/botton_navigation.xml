@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/nav_one_day"
         android:icon="@drawable/ic_wb_sunny_black_24dp"
-        android:title="Latest"/>
+        android:title="Single Day"/>
     <item android:id="@+id/nav_all_time"
         android:icon="@drawable/ic_date_range_black_24dp"
         android:title="All Time"/>

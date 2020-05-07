@@ -4,11 +4,11 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.pixelintellect.insight"
+        applicationId "com.pixelintellect.insightcovid19"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 3
-        versionName "3.0"
+        versionCode 4
+        versionName "4.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -26,9 +26,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0'// for charts
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'im.dacer:AndroidCharts:1.0.4' // for charts
     implementation 'com.squareup.okhttp3:okhttp:4.5.0' // for easy http requests
     implementation 'com.google.code.gson:gson:2.8.5' // for json objects
 }

@@ -11,7 +11,6 @@
         android:orientation="vertical"
         android:paddingBottom="90dp">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -198,12 +197,18 @@
             android:text="Positive cases provincial breakdown"
             android:textSize="24sp" />
 
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="30dp">
 
-        <com.anychart.AnyChartView
-            android:id="@+id/barChartAllTimePositives"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center_horizontal" />
+            <view
+                android:id="@+id/barChartAllTimePositives"
+                class="im.dacer.androidcharts.BarView"
+                android:layout_width="wrap_content"
+                android:layout_height="400dp" />
+
+        </HorizontalScrollView>
 
         <LinearLayout
             android:layout_width="wrap_content"

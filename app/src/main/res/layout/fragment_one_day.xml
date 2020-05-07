@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:nestedScrollingEnabled="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,13 +12,29 @@
         android:orientation="vertical"
         android:paddingBottom="90dp">
 
-        <TextView
-            android:id="@+id/textViewLatestDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="20dp"
-            android:textSize="18sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="25dp">
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Showing results for:"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editTextDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:focusable="false"
+                android:inputType="date" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -183,13 +200,18 @@
             android:text="Positive cases per province"
             android:textSize="24sp" />
 
-        <com.anychart.AnyChartView
-            android:id="@+id/pieChartOneDayProvince"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center_horizontal" >
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="30dp">
 
-        </com.anychart.AnyChartView>
+            <view
+                android:id="@+id/barViewOneDayProvince"
+                class="im.dacer.androidcharts.BarView"
+                android:layout_width="wrap_content"
+                android:layout_height="400dp" />
+
+        </HorizontalScrollView>
 
         <LinearLayout
             android:layout_width="wrap_content"
