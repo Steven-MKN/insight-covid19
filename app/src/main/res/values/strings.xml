@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Insight</string>
+    <string name="updating_data">updating data...</string>
+    <string name="last_updated">last updated:</string>
+    <string name="showing_results_for">Showing results for:</string>
+    <string name="positive_cases_per_province">Positive cases per province</string>
+    <string name="tests">Tests</string>
+    <string name="deaths">Deaths</string>
+    <string name="recovered">Recovered</string>
+    <string name="positive_cases">Positive Cases</string>
+    <string name="zero">0</string>
+    <string name="positive_cases_provincial_breakdown">Positive cases provincial breakdown</string>
 </resources>

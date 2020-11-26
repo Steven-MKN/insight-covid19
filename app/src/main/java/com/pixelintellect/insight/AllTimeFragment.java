@@ -84,6 +84,7 @@ public class AllTimeFragment extends Fragment {
 
         barView.setBottomTextList(provinces);
 
+
         dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.GAUTENG)));
         dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.WESTERN_CAPE)));
         dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.KWA_ZULU_NATAL)));
@@ -103,6 +104,7 @@ public class AllTimeFragment extends Fragment {
         }
 
         barView.setDataList(dataEntries, (int) (max * 1.3));
+        barView.animate();
         tvBarUpdateDate.setText(provincalPositives.get(Constants.DATE));
     }
 }
