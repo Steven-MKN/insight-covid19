@@ -24,9 +24,8 @@ Data [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%
 - [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ### LottieFiles
-- Animation by Siyuan Qiu  on LottieFiles
-  Siyuan Qiu  on LottieFiles https://lottiefiles.com/user/113620
-
+- Animation by [Siyuan Qiu](https://github.com/LottieFiles/lottie-android)
+- [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## Contact
 * Steven Mokoena - steventmokoena@gmail.com, [@Steven1TM](https://twitter.com/Steven1TM)
