@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.pixelintellect.insight.utils.AppData;
 import com.pixelintellect.insight.utils.Constants;
+import com.pixelintellect.insight.utils.Converters;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -50,10 +52,10 @@ public class AllTimeFragment extends Fragment {
 
         AppData appData = AppData.getInstance();
 
-        tvdeathsNumber.setText(appData.getDeaths());
-        tvPositivesNumber.setText(appData.getPositiveCases());
-        tvRecoveredNumber.setText(appData.getRecovered());
-        tvTestsNumber.setText(appData.getTests());
+        tvdeathsNumber.setText(Converters.tallyToFormatString(appData.getDeaths()));
+        tvPositivesNumber.setText(Converters.tallyToFormatString(appData.getPositiveCases()));
+        tvRecoveredNumber.setText(Converters.tallyToFormatString(appData.getRecovered()));
+        tvTestsNumber.setText(Converters.tallyToFormatString(appData.getTests()));
         tvDate.setText(appData.getLatestDate());
 
         try {

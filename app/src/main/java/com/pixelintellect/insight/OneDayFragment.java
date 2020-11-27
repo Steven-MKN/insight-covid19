@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.pixelintellect.insight.utils.AppData;
 import com.pixelintellect.insight.utils.Constants;
+import com.pixelintellect.insight.utils.Converters;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -103,10 +104,10 @@ public class OneDayFragment extends Fragment {
     }
 
     private void setData(String date){
-        tvdeathsNumber.setText(appData.getDeathsOn(date));
-        tvPositivesNumber.setText(appData.getPositiveCasesOn(date));
-        tvRecoveredNumber.setText(appData.getRecoveredOn(date));
-        tvTestsNumber.setText(appData.getTestsOn(date));
+        tvdeathsNumber.setText(Converters.tallyToFormatString(appData.getDeathsOn(date)));
+        tvPositivesNumber.setText(Converters.tallyToFormatString(appData.getPositiveCasesOn(date)));
+        tvRecoveredNumber.setText(Converters.tallyToFormatString(appData.getRecoveredOn(date)));
+        tvTestsNumber.setText(Converters.tallyToFormatString(appData.getTestsOn(date)));
 
         etDate.setText(date);
 
