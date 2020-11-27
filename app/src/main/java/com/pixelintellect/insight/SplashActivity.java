@@ -28,6 +28,10 @@ public class SplashActivity extends AppCompatActivity {
         tvMessage = findViewById(R.id.textViewDownloadingData);
     }
 
+    /**
+     * Goes to the next activity
+     * @param m message, if any
+     */
     public void next(@Nullable String m){
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         if (m != null)
@@ -40,11 +44,13 @@ public class SplashActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        // true when opened via the notification
         boolean updatesAvailable = getIntent().getBooleanExtra(Constants.UPDATES, false);
 
         //check if data exists
         SharedPreferences sp = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         String date = sp.getString(Constants.LAST_UPDATE, null);
+
         if (date == null || updatesAvailable){
             if (tvMessage != null) tvMessage.setVisibility(View.VISIBLE);
 
@@ -57,8 +63,11 @@ public class SplashActivity extends AppCompatActivity {
                     next(m);
                 }
             };
+
             IntentFilter intentFilter = new IntentFilter("afsdfs");
             getApplicationContext().registerReceiver(br, intentFilter);
+
+            // requests data updates
             new DataController(getSharedPreferences(getPackageName(), MODE_PRIVATE)).updateData(getApplicationContext(), "afsdfs");
 
         } else {

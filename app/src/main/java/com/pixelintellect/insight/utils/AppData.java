@@ -1,5 +1,11 @@
 package com.pixelintellect.insight.utils;
 
+/**
+ * This class is a singleton, it contains all the temporary (non persisting) data that the app makes use of.
+ * calling the static method getInstance() will create an instance of no instance exists and will return the instance.
+ * That is to say, for the whole life cycle of the application will use a single instance of this class.
+ */
+
 import com.pixelintellect.insight.utils.models.ProvincialCumulativeConfirmedModel;
 import com.pixelintellect.insight.utils.models.TestingTimelineModel;
 
@@ -15,25 +21,43 @@ public class AppData {
     private ArrayList<ProvincialCumulativeConfirmedModel> provincialCumulativeConfirms;
     private ArrayList<TestingTimelineModel> testingTimelines;
 
+    /**
+     * The constructor is private to prevent instantiation out side of this class, use getInstance()
+     */
     private AppData(){
         provincialCumulativeConfirms = new ArrayList<>();
         testingTimelines = new ArrayList<>();
     }
 
+    /**
+     * Returns an instance of the class, creates one if non exists
+     * @return AppData
+     */
     public static AppData getInstance(){
         if (instance == null)
             instance = new AppData();
         return instance;
     }
 
+    /**
+     * @param provincialCumulativeConfirms ArrayList<ProvincialCumulativeConfirmedModel>
+     */
     public void setProvincialCumulativeConfirms(ArrayList<ProvincialCumulativeConfirmedModel> provincialCumulativeConfirms) {
         this.provincialCumulativeConfirms = provincialCumulativeConfirms;
     }
 
+    /**
+     *
+     * @param testingTimelines ArrayList<TestingTimelineModel>
+     */
     public void setTestingTimelines(ArrayList<TestingTimelineModel> testingTimelines) {
         this.testingTimelines = testingTimelines;
     }
 
+    /**
+     * Returns the date of the latest available data
+     * @return String
+     */
     public String getLatestDate(){
         try {
             ProvincialCumulativeConfirmedModel model = provincialCumulativeConfirms.get(provincialCumulativeConfirms.size() - 1);
@@ -44,6 +68,10 @@ public class AppData {
         }
     }
 
+    /**
+     * Returns the dates of all the available data
+     * @return String
+     */
     public HashMap<String, Date> getDates(){
         HashMap<String, Date> dateMap = new HashMap<String, Date>();
 
@@ -58,6 +86,11 @@ public class AppData {
         return dateMap;
     }
 
+    /**
+     *  Get the number of positive cases on a specific date
+     * @param date Date in String format
+     * @return String
+     */
     public String getPositiveCasesOn(String date){
         // this method is expensive, optimize soon!!
         String cases = "-";
@@ -91,6 +124,11 @@ public class AppData {
         return cases;
     }
 
+    /**
+     *  Gets the number of recovered patients on a specific date
+     * @param date Date in String format
+     * @return String
+     */
     public String getRecoveredOn(String date){
         // this method is expensive, optimize soon!!
         String recovered = "-";
@@ -124,6 +162,11 @@ public class AppData {
         return recovered;
     }
 
+    /**
+     *  Get the number of deaths on a specific date
+     * @param date Date in String format
+     * @return String
+     */
     public String getDeathsOn(String date){
         // this method is expensive, optimize soon!!
         String deaths = "-";
@@ -157,6 +200,11 @@ public class AppData {
         return deaths;
     }
 
+    /**
+     *  Get the number of tests completed on a specific date
+     * @param date Date in String format
+     * @return String
+     */
     public String getTestsOn(String date){
         // this method is expensive, optimize soon!!
         String tests = "-";
@@ -190,6 +238,11 @@ public class AppData {
         return tests;
     }
 
+    /**
+     * Gets positive cases for each province on a specific date
+     * @param date Date in String format
+     * @return HashMap<String, String>
+     */
     public HashMap<String, String> getProvincialPositivesOn(String date){
         // this method is expensive, optimize soon!!
         String tests = "-";
@@ -267,8 +320,10 @@ public class AppData {
         return map;
     }
 
-
-
+    /**
+     * Gets total positive cases for each province
+     * @return HashMap<String, String>
+     */
     public HashMap<String, String> getProvincialPositives(){
         ProvincialCumulativeConfirmedModel model = null;
         HashMap<String, String> map = new HashMap<String, String>();
@@ -318,6 +373,10 @@ public class AppData {
         return map;
     }
 
+    /**
+     * Gets total positive cases for the entire nation
+     * @return String
+     */
     public String getPositiveCases(){
         ProvincialCumulativeConfirmedModel model;
         int x = provincialCumulativeConfirms.size() - 1;
@@ -334,6 +393,10 @@ public class AppData {
         }
     }
 
+    /**
+     * Gets total recoveries for the entire nation
+     * @return String
+     */
     public String getRecovered(){
         TestingTimelineModel model;
         try {
@@ -349,6 +412,10 @@ public class AppData {
         }
     }
 
+    /**
+     * Gets total deaths for the entire nation
+     * @return String
+     */
     public String getDeaths(){
         TestingTimelineModel model;
         try {
@@ -365,6 +432,10 @@ public class AppData {
         }
     }
 
+    /**
+     * Gets total tests completed for the entire nation
+     * @return String
+     */
     public String getTests(){
         TestingTimelineModel model;
         try {
@@ -381,6 +452,11 @@ public class AppData {
         }
     }
 
+    /**
+     * Checks whether the String has a numeric value, then returns true. Returns false otherwise
+     * @param s String to be checked
+     * @return boolean
+     */
     private boolean isDigit(String s){
         boolean isValid = true;
 
@@ -394,6 +470,11 @@ public class AppData {
         return isValid;
     }
 
+    /**
+     * Checks whether each and every String has a value of 0, then returns true. Returns false otherwise.
+     * @param s list of Strings to be checked
+     * @return boolean
+     */
     private boolean allZero(String ...s){
         boolean allZero = true;
         for (String each : s){

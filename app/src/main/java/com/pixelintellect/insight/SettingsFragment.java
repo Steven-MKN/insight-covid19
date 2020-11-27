@@ -35,6 +35,10 @@ public class SettingsFragment extends Fragment {
     private Button btnRefresh, btnPrivacyPolicy;
     private Switch switchNotifications;
 
+    /**
+     * Creates and returns anew instance of this class
+     * @return SettingsFragment
+     */
     public static SettingsFragment newInstance(){
         Log.i("tag", "OneDayFragment");
         return new SettingsFragment();
@@ -45,18 +49,24 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
+        // init views
         btnPrivacyPolicy = view.findViewById(R.id.buttonPrivacyPolicy);
         btnRefresh = view.findViewById(R.id.buttonForceRefresh);
         switchNotifications = view.findViewById(R.id.switchNotifications);
 
-        //
+        // used to run background task to check for updates when notifications are enabled
         JobScheduler scheduler = (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
         if (scheduler != null){
             if (Build.VERSION.SDK_INT >= 24) {
+
+                // if job is scheduled, set notifications as enabled
                 if (scheduler.getPendingJob(123) != null)
                     switchNotifications.setChecked(true);
                 else switchNotifications.setChecked(false);
+
             } else {
+
+                // if job is scheduled, set notifications as enabled
                 List<JobInfo> jobs = scheduler.getAllPendingJobs();
                 boolean exists = false;
                 for (JobInfo job: jobs){
@@ -94,6 +104,7 @@ public class SettingsFragment extends Fragment {
                 IntentFilter intentFilter = new IntentFilter("sdoiahsac");
                 getContext().registerReceiver(br, intentFilter);
 
+                // attempts to retrieve updated data
                 new DataController(
                         getActivity().getSharedPreferences(getActivity().getPackageName(), Context.MODE_PRIVATE))
                         .updateData(getContext(), "sdoiahsac");
@@ -104,10 +115,11 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    // used to run background task to check for updates when notifications are enabled
+
                     ComponentName componentName = new ComponentName(getActivity().getApplicationContext(), UpdateJobService.class);
                     JobInfo.Builder builder = new JobInfo.Builder(123, componentName)
                             .setPeriodic(60 * 60 * 1000);
-
                     builder.setPersisted(true);
 
                     JobInfo jobInfo = builder.build();
@@ -129,6 +141,7 @@ public class SettingsFragment extends Fragment {
                     Log.i(TAG, message);
                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                 } else {
+                    // cancel job service (cancel checking for updates)
                     JobScheduler scheduler = (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
                     if (scheduler != null) scheduler.cancel(123);
                     Log.i(TAG, "notifications disabled");

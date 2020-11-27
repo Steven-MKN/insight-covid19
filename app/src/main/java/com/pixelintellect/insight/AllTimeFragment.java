@@ -26,9 +26,12 @@ import java.util.Map;
 
 
 public class AllTimeFragment extends Fragment {
-    //private AnyChartView barProvinceView;
     private TextView tvdeathsNumber, tvPositivesNumber, tvRecoveredNumber, tvTestsNumber, tvDate, tvBarUpdateDate;
 
+    /**
+     * Creates and returns anew instance of this class
+     * @return AllTimeFragment
+     */
     public static AllTimeFragment newInstance(){
         Log.i("tag", "OneDayFragment");
         return new AllTimeFragment();
@@ -39,7 +42,7 @@ public class AllTimeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_time, container, false);
 
-        //init views
+        // init views
         tvdeathsNumber = view.findViewById(R.id.textViewTotalDeathsNumber);
         tvPositivesNumber = view.findViewById(R.id.textViewTotalPositiveCasesNumber);
         tvRecoveredNumber = view.findViewById(R.id.textViewTotalRecoveredNumber);

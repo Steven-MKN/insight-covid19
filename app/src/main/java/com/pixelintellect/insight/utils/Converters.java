@@ -1,18 +1,18 @@
 package com.pixelintellect.insight.utils;
 
 import java.text.DecimalFormat;
-import java.text.FieldPosition;
-import java.text.NumberFormat;
 
 public class Converters {
   /**
-   * Converts an integer String to a formatted String with 'K' for thousands and 'M' for millions
+   * Converts a String with an integer value to a formatted String with 'K' for thousands and 'M' for millions
    * @param s a String with an integer value
    * @return String
    */
   public static String tallyToFormatString(String s){
+    // decimal format, to 1 decimal place
     DecimalFormat df = new DecimalFormat("#.#");
 
+    // try to cast and format the String, else return the input string as is.
     try {
       final int count = Integer.parseInt(s);
       final int ONE_MILLION = 1_000_000;

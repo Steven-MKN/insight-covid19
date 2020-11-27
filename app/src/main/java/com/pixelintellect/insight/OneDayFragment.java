@@ -44,6 +44,10 @@ public class OneDayFragment extends Fragment {
     private SimpleDateFormat simpleDateFormat;
     private BarChart barView;
 
+    /**
+     * Creates and returns anew instance of this class
+     * @return OneDayFragment
+     */
     public static OneDayFragment newInstance() {
         Log.i("tag", "OneDayFragment");
 
@@ -59,6 +63,7 @@ public class OneDayFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_one_day, container, false);
 
+        // init views
         tvdeathsNumber = view.findViewById(R.id.textViewDeathsNum);
         tvPositivesNumber = view.findViewById(R.id.textViewPositiveCasesNumber);
         tvRecoveredNumber = view.findViewById(R.id.textViewRecoveredNumber);
@@ -67,11 +72,14 @@ public class OneDayFragment extends Fragment {
         etDate = view.findViewById(R.id.editTextDate);
         barView = view.findViewById(R.id.barViewOneDayProvince);
 
+        // on click listener to allow the changing of dates
         etDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
+                    // date of the current displayed data
                     Date showingDate = simpleDateFormat.parse(etDate.getText().toString());
+
                     DatePickerFragment datePickerFragment = new DatePickerFragment(
                             getContext(),
                             new DatePickerDialog.OnDateSetListener() {
@@ -84,10 +92,12 @@ public class OneDayFragment extends Fragment {
                                 }
                             },
                             showingDate,
-                            dates.get("early"),
-                            dates.get("late")
+                            dates.get("early"), // min selectable date
+                            dates.get("late") // max selectable date
                     );
+
                     datePickerFragment.show(getFragmentManager(), "date_picker");
+
                 } catch (ParseException e){
                     Log.i(TAG, "date parse error");
                     e.printStackTrace();

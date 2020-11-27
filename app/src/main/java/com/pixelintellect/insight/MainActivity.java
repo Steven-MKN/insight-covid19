@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.i(TAG, "MainActivity");
+
         // load data
         new DataController(getSharedPreferences(getPackageName(), MODE_PRIVATE)).loadData();
 
@@ -28,8 +30,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationMenu = (BottomNavigationView) findViewById(R.id.navigation_bar);
         bottomNavigationMenu.setOnNavigationItemSelectedListener(this);
 
-
-        Log.i(TAG, "MainActivity");
         FragmentCnt.to(R.id.home_frag_holder, OneDayFragment.newInstance(), getSupportFragmentManager(), false, true);
 
         // check for messages

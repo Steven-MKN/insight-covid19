@@ -12,7 +12,6 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.google.gson.reflect.TypeToken;
 import com.pixelintellect.insight.R;
 import com.pixelintellect.insight.SplashActivity;
 import com.pixelintellect.insight.utils.models.ProvincialCumulativeConfirmedModel;
@@ -20,7 +19,6 @@ import com.pixelintellect.insight.utils.models.ProvincialCumulativeConfirmedMode
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,7 +44,7 @@ public class UpdateJobService extends JobService {
                 .url(url)
                 .build();
 
-
+        // makes http request to get the csv
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -63,9 +61,12 @@ public class UpdateJobService extends JobService {
 
                 try {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+                    // the date of the last successful update
                     String lastUpdateDateStr = getSharedPreferences(getPackageName(), MODE_PRIVATE).getString(Constants.LAST_UPDATE, null);
                     Date lastUpdateDate = simpleDateFormat.parse(lastUpdateDateStr);
 
+                    // the date of the retrieved data
                     Date dataDate = confirmedCases.get(confirmedCases.size() - 1).getDate();
 
                     if (lastUpdateDate != null && lastUpdateDate.before(dataDate)){
@@ -87,14 +88,14 @@ public class UpdateJobService extends JobService {
 
         createNotificationChannel(CHANNEL_ID);
 
-        // Create an explicit intent for activity
+        // Create an explicit intent for activity, this will make the intent when the notification is clicked
         Intent intent = new Intent(this, SplashActivity.class);
         intent.putExtra(Constants.UPDATES, true);
 
         PendingIntent pendingIntent =
                 PendingIntent.getActivity(this, 0, intent, 0);
 
-
+        // set up the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.logo_trans)
                 .setContentTitle(getString(R.string.app_name))
@@ -105,12 +106,13 @@ public class UpdateJobService extends JobService {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
+        // send notification
         notificationManager.notify(notificationId, builder.build());
 
     }
 
     private void createNotificationChannel(String CHANNEL_ID) {
-        // Create the NotificationChannel for API 26+
+        // Create the NotificationChannel for API 26+, not needed otherwise
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Insight Data Updates";
             String description = "Updates on data in SA";
