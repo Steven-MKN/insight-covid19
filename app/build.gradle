@@ -33,7 +33,7 @@ dependencies {
     //animations
     def lottieVersion = "3.5.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
-    implementation 'im.dacer:AndroidCharts:1.0.4' // for charts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0' // for charts
     implementation 'com.squareup.okhttp3:okhttp:4.5.0' // for easy http requests
     implementation 'com.google.code.gson:gson:2.8.5' // for json objects
 }

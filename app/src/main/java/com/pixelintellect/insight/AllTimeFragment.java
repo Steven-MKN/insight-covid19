@@ -1,5 +1,6 @@
 package com.pixelintellect.insight;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.pixelintellect.insight.utils.AppData;
 import com.pixelintellect.insight.utils.Constants;
 import com.pixelintellect.insight.utils.Converters;
@@ -18,7 +24,6 @@ import com.pixelintellect.insight.utils.Converters;
 import java.util.ArrayList;
 import java.util.Map;
 
-import im.dacer.androidcharts.BarView;
 
 public class AllTimeFragment extends Fragment {
     //private AnyChartView barProvinceView;
@@ -35,7 +40,6 @@ public class AllTimeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all_time, container, false);
 
         //init views
-        //barProvinceView = view.findViewById(R.id.barChartAllTimePositives);
         tvdeathsNumber = view.findViewById(R.id.textViewTotalDeathsNumber);
         tvPositivesNumber = view.findViewById(R.id.textViewTotalPositiveCasesNumber);
         tvRecoveredNumber = view.findViewById(R.id.textViewTotalRecoveredNumber);
@@ -68,45 +72,95 @@ public class AllTimeFragment extends Fragment {
     private void setUpBarChart(){
         // display data
         Map<String, String> provincalPositives = AppData.getInstance().getProvincialPositives();
-        ArrayList<Integer> dataEntries = new ArrayList<>();
-        ArrayList provinces = new ArrayList();
-        BarView barView = getView().findViewById(R.id.barChartAllTimePositives);
+        BarChart barView = getView().findViewById(R.id.barChartAllTimePositives);
 
-        provinces.add(Constants.GAUTENG + ": " + provincalPositives.get(Constants.GAUTENG));
-        provinces.add(Constants.WESTERN_CAPE + ": " + provincalPositives.get(Constants.WESTERN_CAPE));
-        provinces.add(Constants.KWA_ZULU_NATAL + ": " + provincalPositives.get(Constants.KWA_ZULU_NATAL));
-        provinces.add(Constants.EASTERN_CAPE + ": " + provincalPositives.get(Constants.EASTERN_CAPE));
-        provinces.add(Constants.FREE_STATE + ": " + provincalPositives.get(Constants.FREE_STATE));
-        provinces.add(Constants.LIMPOPO + ": " + provincalPositives.get(Constants.LIMPOPO));
-        provinces.add(Constants.NORTH_WEST + ": " + provincalPositives.get(Constants.NORTH_WEST));
-        provinces.add(Constants.MPUMALANGA + ": " + provincalPositives.get(Constants.MPUMALANGA));
-        provinces.add(Constants.NORTHERN_CAPE + ": " + provincalPositives.get(Constants.NORTHERN_CAPE));
+        BarData barData = new BarData();
+        barData.addDataSet(makeDataSet(
+            Constants.GAUTENG,
+            Float.parseFloat(provincalPositives.get(Constants.GAUTENG)),
+            Color.rgb(76,175,78),
+            0
+            )
+        );
+        barData.addDataSet(makeDataSet(
+            Constants.WESTERN_CAPE,
+            Float.parseFloat(provincalPositives.get(Constants.WESTERN_CAPE)),
+            Color.rgb(33,148,243),
+            1
+            )
+        );
+        barData.addDataSet(makeDataSet(
+            Constants.KWA_ZULU_NATAL,
+            Float.parseFloat(provincalPositives.get(Constants.KWA_ZULU_NATAL)),
+            Color.rgb(255,193,7),
+            2
+            )
+        );
+        barData.addDataSet(makeDataSet(
+            Constants.EASTERN_CAPE,
+            Float.parseFloat(provincalPositives.get(Constants.EASTERN_CAPE)),
+            Color.rgb(244,67,54),
+            3
+            )
+        );
+        barData.addDataSet(makeDataSet(
+            Constants.FREE_STATE,
+            Float.parseFloat(provincalPositives.get(Constants.FREE_STATE)),
+            Color.rgb(121,85,72),
+            4
+            )
+        );
+        barData.addDataSet(makeDataSet(
+            Constants.LIMPOPO,
+            Float.parseFloat(provincalPositives.get(Constants.LIMPOPO)),
+            Color.rgb(104,58,183),
+            5
+            )
+        );
+        barData.addDataSet(makeDataSet(
+            Constants.NORTH_WEST,
+            Float.parseFloat(provincalPositives.get(Constants.NORTH_WEST)),
+            Color.rgb(255,235,59),
+            6
+            )
+        );
+        barData.addDataSet(makeDataSet(
+            Constants.MPUMALANGA,
+            Float.parseFloat(provincalPositives.get(Constants.MPUMALANGA)),
+            Color.rgb(233,30,98),
+            7
+            )
+        );
+        barData.addDataSet(makeDataSet(
+            Constants.NORTHERN_CAPE,
+            Float.parseFloat(provincalPositives.get(Constants.NORTHERN_CAPE)),
+            Color.rgb(0,187,212),
+            8
+            )
+        );
+
         if (!provincalPositives.get(Constants.UNKNOWN).equals("0"))
-            provinces.add(Constants.UNKNOWN + ": " + provincalPositives.get(Constants.UNKNOWN));
+            barData.addDataSet(makeDataSet(
+                Constants.UNKNOWN,
+                Float.parseFloat(provincalPositives.get(Constants.UNKNOWN)),
+                Color.rgb(96,125,139),
+                9
+                )
+            );
 
-        barView.setBottomTextList(provinces);
+        barView.setData(barData);
+        barView.setDescription(new Description());
 
-
-        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.GAUTENG)));
-        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.WESTERN_CAPE)));
-        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.KWA_ZULU_NATAL)));
-        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.NORTH_WEST)));
-        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.NORTHERN_CAPE)));
-        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.LIMPOPO)));
-        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.MPUMALANGA)));
-        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.EASTERN_CAPE)));
-        dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.FREE_STATE)));
-        if (!provincalPositives.get(Constants.UNKNOWN).equals("0"))
-            dataEntries.add(Integer.parseInt(provincalPositives.get(Constants.UNKNOWN)));
-
-        // find max
-        int max = Integer.MIN_VALUE;
-        for (int data : dataEntries) {
-            if (data > max) max = data;
-        }
-
-        barView.setDataList(dataEntries, (int) (max * 1.3));
         barView.animate();
         tvBarUpdateDate.setText(provincalPositives.get(Constants.DATE));
+    }
+
+    public BarDataSet makeDataSet(String label, float value, int color, float index){
+        ArrayList<BarEntry> arrayList = new ArrayList<BarEntry>();
+        arrayList.add(new BarEntry(index, value));
+        BarDataSet barDataSet = new BarDataSet(arrayList, label);
+        barDataSet.setColor(color);
+
+        return barDataSet;
     }
 }
