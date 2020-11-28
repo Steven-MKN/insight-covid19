@@ -14,4 +14,14 @@
     <string name="preferences">Preferences</string>
     <string name="all_time">All Time</string>
     <string name="single_day">Single Day</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="insight_bulletin">Insight Bulletin</string>
+    <string name="search">Search</string>
+    <string name="top_headlines">Top Headlines</string>
+    <string name="other_news">Other News</string>
+    <string name="article_description">Article Descrition</string>
+    <string name="source">Source</string>
+    <string name="date_published">Date </string>
+    <string name="website_url">website url</string>
 </resources>

@@ -60,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.nav_settings:
                 FragmentCnt.to(R.id.home_frag_holder, SettingsFragment.newInstance(), getSupportFragmentManager(), false, true);
                 break;
+
+            case  R.id.nav_news:
+                FragmentCnt.to(R.id.home_frag_holder, NewsFragment.newInstance(), getSupportFragmentManager(), false, true);
+                break;
         }
 
         return true;
