@@ -7,5 +7,6 @@
     <color name="backPositives">#4DFFC107</color>
     <color name="backTests">#4DFFFFFF</color>
     <color name="backRecovered">#4D4CAF50</color>
+    <color name="mint">#1FF486</color>
 
 </resources>

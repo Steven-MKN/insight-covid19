@@ -10,4 +10,8 @@
     <string name="positive_cases">Positive Cases</string>
     <string name="zero">0</string>
     <string name="positive_cases_provincial_breakdown">Positive cases provincial breakdown</string>
+    <string name="news">News</string>
+    <string name="preferences">Preferences</string>
+    <string name="all_time">All Time</string>
+    <string name="single_day">Single Day</string>
 </resources>

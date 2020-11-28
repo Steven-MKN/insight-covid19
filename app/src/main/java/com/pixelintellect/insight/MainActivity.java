@@ -12,9 +12,12 @@ import com.pixelintellect.insight.utils.Constants;
 import com.pixelintellect.insight.utils.DataController;
 import com.pixelintellect.insight.utils.FragmentCnt;
 
+import me.ibrahimsn.lib.SmoothBottomBar;
+
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
     private final String TAG = "MainActivity";
     private BottomNavigationView bottomNavigationMenu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +31,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         // init views
         bottomNavigationMenu = (BottomNavigationView) findViewById(R.id.navigation_bar);
+
+
         bottomNavigationMenu.setOnNavigationItemSelectedListener(this);
+
 
         FragmentCnt.to(R.id.home_frag_holder, OneDayFragment.newInstance(), getSupportFragmentManager(), false, true);
 
