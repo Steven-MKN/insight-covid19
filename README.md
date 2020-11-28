@@ -27,5 +27,18 @@ Data [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%
 - Animation by [Siyuan Qiu](https://github.com/LottieFiles/lottie-android)
 - [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+### Material Searchbar
+-By [Mansour mancj] (https://github.com/mancj/MaterialSearchBar)
+-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+### Rounded ImageView
+-By [Vince Mi](https://github.com/vinc3m1/RoundedImageView)
+-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+###Picasso
+
+-By [square](https://github.com/square/picasso)
+-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 ## Contact
 * Steven Mokoena - steventmokoena@gmail.com, [@Steven1TM](https://twitter.com/Steven1TM)
