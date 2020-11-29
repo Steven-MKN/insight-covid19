@@ -80,7 +80,7 @@ public class SettingsFragment extends Fragment {
         btnPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String url = "https://pixelintellect.co.za/apps/insight/privacy-policy.html";
+            String url = "https://stevenmokoena.co.za/insight/privacy-policy.html";
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
