@@ -35,8 +35,7 @@ Data [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%
 -By [Vince Mi](https://github.com/vinc3m1/RoundedImageView)
 -[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-###Picasso
-
+### Picasso
 -By [square](https://github.com/square/picasso)
 -[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 

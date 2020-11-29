@@ -37,8 +37,12 @@ dependencies {
     implementation "com.airbnb.android:lottie:$lottieVersion"
     implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.6' // bottom navigationView animations
     implementation 'com.squareup.picasso:picasso:2.71828' //image loading
-    compile 'com.makeramen:roundedimageview:2.3.0' // for rounded imageViews
+    implementation 'com.makeramen:roundedimageview:2.3.0' // for rounded imageViews
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0' // for charts
     implementation 'com.squareup.okhttp3:okhttp:4.5.0' // for easy http requests
     implementation 'com.google.code.gson:gson:2.8.5' // for json objects
+
+    //Retrofit to serialize and deserialize objects to and from JSON
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
 }
