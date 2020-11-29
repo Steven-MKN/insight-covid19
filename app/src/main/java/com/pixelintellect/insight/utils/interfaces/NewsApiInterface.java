@@ -10,10 +10,11 @@ public interface NewsApiInterface {
     //get news top headlines
     @GET("top-headlines")
     Call<NewsModel> getTopHeadlines(
-            @Query("country") String country,
-            @Query("q") String query,
 
-            @Query("apiKey") String apiKey
+
+            @Query("apiKey") String apiKey,
+             @Query("q") String query,
+            @Query("country") String country
 
 
     );

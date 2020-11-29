@@ -1,13 +1,16 @@
 package com.pixelintellect.insight.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,18 +21,30 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.pixelintellect.insight.R;
 import com.pixelintellect.insight.WebViewActivity;
 import com.pixelintellect.insight.utils.LayoutDataClass;
+import com.pixelintellect.insight.utils.models.ArticlesModel;
 import com.squareup.picasso.Picasso;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class TopHeadlinesRecyclerAdapter extends RecyclerView.Adapter<TopHeadlinesRecyclerAdapter.RecyclerViewHolder> {
 
-    //create constructor that gets values from the LayoutDataClass
+    private static final String TAG = "prettyTime";
     Context context;
-    ArrayList<LayoutDataClass> layoutDataClassArrayList; //gets the variables in the LayoutDataClass
+    List<ArticlesModel> articlesModelList;
 
-    public TopHeadlinesRecyclerAdapter(ArrayList<LayoutDataClass> LayoutDataClass) {
-        this.layoutDataClassArrayList = LayoutDataClass;
+    //create constructor that gets values from the ArticlesModelClass
+    public TopHeadlinesRecyclerAdapter(Context context, List<ArticlesModel> getArticles) {
+
+        this.context = context;
+        this.articlesModelList = getArticles;
     }
 
 
@@ -43,33 +58,40 @@ public class TopHeadlinesRecyclerAdapter extends RecyclerView.Adapter<TopHeadlin
         return viewHolder;
     }
 
+
     @Override
+    //  this method binds the design and code
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
-//       this method binds the design and code
-        LayoutDataClass dataClass = layoutDataClassArrayList.get(position);
+
 
         //now set values to elements in the card layouts
-        String imgUrl = dataClass.getImage();
-        Picasso.get().load("https://images.pexels.com/photos/3952231/pexels-photo-3952231.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500").into(holder.imageView);
+        final ArticlesModel articlesModel = articlesModelList.get(position);
+        String imgUrl = articlesModel.getUrlToImage();
+        String webUrl = articlesModel.getUrl();
+        Picasso.get().load(imgUrl).into(holder.imageView);
         Drawable drawable = holder.imageView.getDrawable();
         holder.imageView.setBackground(drawable);
+        holder.headline.setText(articlesModel.getTitle());
+        holder.description.setText(articlesModel.getDiscription());
+        holder.source.setText(articlesModel.getSource().getName());
+        holder.publishedDate.setText(articlesModel.getPublished());
 
-        holder.headline.setText(dataClass.getHeadline());
-
-        holder.description.setText(dataClass.getDescription());
-        holder.source.setText(dataClass.getSource());
-        holder.publishedDate.setText(dataClass.getPublishedDate());
-
-
-
-
+        //open and pass data to webview
+        holder.news_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, WebViewActivity.class);
+                intent.putExtra("url", articlesModel.getUrl());
+                context.startActivity(intent);
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
         //return the size of the array list
-        return layoutDataClassArrayList.size();
+        return articlesModelList.size();
     }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -87,9 +109,12 @@ public class TopHeadlinesRecyclerAdapter extends RecyclerView.Adapter<TopHeadlin
             description = itemView.findViewById(R.id.tv_description);
             source = itemView.findViewById(R.id.tv_source);
             publishedDate = itemView.findViewById(R.id.tv_date);
-            news_card = itemView.findViewById(R.id.news_card);
+            news_card = itemView.findViewById(R.id.top_headlines_card);
 
 
         }
     }
+
+
 }
+

@@ -83,7 +83,7 @@
 
 
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -110,20 +110,27 @@
                     android:text="@string/top_headlines"
                     android:textColor="#000"
                     android:textSize="18sp" />
-
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/refreshLayout"
+                android:layout_marginTop="48dp"
+                android:layout_width="match_parent"
+                android:layout_height="700dp">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/top_headlines_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="500dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="2dp"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="45dp"
                     android:padding="10dp"
                     />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
             </RelativeLayout>
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout>

@@ -41,6 +41,8 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0' // for charts
     implementation 'com.squareup.okhttp3:okhttp:4.5.0' // for easy http requests
     implementation 'com.google.code.gson:gson:2.8.5' // for json objects
+    //Date/Time
+    implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
 
     //Retrofit to serialize and deserialize objects to and from JSON
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
