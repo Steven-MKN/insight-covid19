@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
@@ -26,6 +31,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.pixelintellect.insight.utils.AppData;
 import com.pixelintellect.insight.utils.Constants;
 import com.pixelintellect.insight.utils.Converters;
+import com.pixelintellect.insight.utils.DataController;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,10 +41,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OneDayFragment extends Fragment {
+public class OneDayFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private String TAG = "OneDayFragment";
     private TextView tvdeathsNumber, tvPositivesNumber, tvRecoveredNumber, tvTestsNumber, tvProvincesDate;
     private EditText etDate;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private AppData appData;
     private HashMap<String, Date> dates;
     private SimpleDateFormat simpleDateFormat;
@@ -71,6 +78,7 @@ public class OneDayFragment extends Fragment {
         tvProvincesDate = view.findViewById(R.id.textViewPieProvincesUpdateDate);
         etDate = view.findViewById(R.id.editTextDate);
         barView = view.findViewById(R.id.barViewOneDayProvince);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_one_day);
 
         // on click listener to allow the changing of dates
         etDate.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +113,8 @@ public class OneDayFragment extends Fragment {
             }
         });
 
+        swipeRefreshLayout.setOnRefreshListener(this);
+
         return view;
     }
 
@@ -112,7 +122,10 @@ public class OneDayFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // add dates
+        addDatesAndDisplayDefault();
+    }
+
+    private void addDatesAndDisplayDefault(){
         dates = appData.getDates();
         setData(simpleDateFormat.format(dates.get("late")));
     }
@@ -220,6 +233,35 @@ public class OneDayFragment extends Fragment {
         barDataSet.setColor(color);
 
         return barDataSet;
+    }
+
+    @Override
+    public void onRefresh() {
+        BroadcastReceiver br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                context.unregisterReceiver(this);
+
+                // removing the swipe refresh layout progress bar
+                swipeRefreshLayout.setRefreshing(false);
+
+                String message = intent.getStringExtra(Constants.MESSAGE);
+                if (message == null) message = "Done!";
+
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+
+                // update data on this fragment
+                addDatesAndDisplayDefault();
+            }
+        };
+        IntentFilter intentFilter = new IntentFilter("sdoiahsac");
+        getContext().registerReceiver(br, intentFilter);
+
+        // attempts to retrieve updated data
+        new DataController(
+            getActivity().getSharedPreferences(getActivity().getPackageName(), Context.MODE_PRIVATE))
+            .updateData(getContext(), "sdoiahsac");
+
     }
 
     public static class DatePickerFragment extends DialogFragment {

@@ -32,7 +32,7 @@ import java.util.List;
 
 public class SettingsFragment extends Fragment {
     private final String TAG = "SettingsFragment";
-    private Button btnRefresh, btnPrivacyPolicy;
+    private Button btnPrivacyPolicy;
     private Switch switchNotifications;
 
     /**
@@ -51,7 +51,6 @@ public class SettingsFragment extends Fragment {
 
         // init views
         btnPrivacyPolicy = view.findViewById(R.id.buttonPrivacyPolicy);
-        btnRefresh = view.findViewById(R.id.buttonForceRefresh);
         switchNotifications = view.findViewById(R.id.switchNotifications);
 
         // used to run background task to check for updates when notifications are enabled
@@ -84,30 +83,6 @@ public class SettingsFragment extends Fragment {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
-            }
-        });
-
-        btnRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnRefresh.setClickable(false);
-                BroadcastReceiver br = new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        context.unregisterReceiver(this);
-                        if (btnRefresh != null) btnRefresh.setClickable(true);
-                        String message = intent.getStringExtra(Constants.MESSAGE);
-                        if (message == null) message = "Done!";
-                        alert(message);
-                    }
-                };
-                IntentFilter intentFilter = new IntentFilter("sdoiahsac");
-                getContext().registerReceiver(br, intentFilter);
-
-                // attempts to retrieve updated data
-                new DataController(
-                        getActivity().getSharedPreferences(getActivity().getPackageName(), Context.MODE_PRIVATE))
-                        .updateData(getContext(), "sdoiahsac");
             }
         });
 

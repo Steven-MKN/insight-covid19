@@ -1,5 +1,9 @@
 package com.pixelintellect.insight;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
@@ -20,13 +26,15 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.pixelintellect.insight.utils.AppData;
 import com.pixelintellect.insight.utils.Constants;
 import com.pixelintellect.insight.utils.Converters;
+import com.pixelintellect.insight.utils.DataController;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 
-public class AllTimeFragment extends Fragment {
+public class AllTimeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private TextView tvdeathsNumber, tvPositivesNumber, tvRecoveredNumber, tvTestsNumber, tvDate, tvBarUpdateDate;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     /**
      * Creates and returns anew instance of this class
@@ -49,6 +57,9 @@ public class AllTimeFragment extends Fragment {
         tvTestsNumber = view.findViewById(R.id.textViewTotalTestsNumber);
         tvDate = view.findViewById(R.id.textViewDateAllTime);
         tvBarUpdateDate = view.findViewById(R.id.textViewBarAllTimeUpdateDate);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_all_time);
+
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         return view;
     }
@@ -165,5 +176,38 @@ public class AllTimeFragment extends Fragment {
         barDataSet.setColor(color);
 
         return barDataSet;
+    }
+
+    @Override
+    public void onRefresh() {
+        BroadcastReceiver br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                context.unregisterReceiver(this);
+
+                // removing the swipe refresh layout progress bar
+                swipeRefreshLayout.setRefreshing(false);
+
+                String message = intent.getStringExtra(Constants.MESSAGE);
+                if (message == null) message = "Done!";
+
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+
+                // update data on this fragment
+                try {
+                    setUpBarChart();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        IntentFilter intentFilter = new IntentFilter("sdoiahsac");
+        getContext().registerReceiver(br, intentFilter);
+
+        // attempts to retrieve updated data
+        new DataController(
+            getActivity().getSharedPreferences(getActivity().getPackageName(), Context.MODE_PRIVATE))
+            .updateData(getContext(), "sdoiahsac");
+
     }
 }
