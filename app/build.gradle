@@ -23,18 +23,19 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // card view
     implementation 'androidx.cardview:cardview:1.0.0'
 
     // material design
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 
-    //animations
+    // animations
     def lottieVersion = "3.5.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
 
@@ -59,7 +60,7 @@ dependencies {
     // Date/Time
     implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
 
-    //Retrofit to serialize and deserialize objects to and from JSON
+    // Retrofit to serialize and deserialize objects to and from JSON
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
 }
