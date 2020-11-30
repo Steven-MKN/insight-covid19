@@ -30,18 +30,33 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    implementation 'com.google.android.material:material:1.2.1' // material design
+    // material design
+    implementation 'com.google.android.material:material:1.2.1'
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
+
     //animations
     def lottieVersion = "3.5.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
-    implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.6' // bottom navigationView animations
-    implementation 'com.squareup.picasso:picasso:2.71828' //image loading
-    implementation 'com.makeramen:roundedimageview:2.3.0' // for rounded imageViews
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0' // for charts
-    implementation 'com.squareup.okhttp3:okhttp:4.5.0' // for easy http requests
-    implementation 'com.google.code.gson:gson:2.8.5' // for json objects
-    //Date/Time
+
+    // bottom navigationView animations
+    implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.6'
+
+    // image loading
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // for rounded imageViews
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
+    // for charts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // for easy http requests
+    implementation 'com.squareup.okhttp3:okhttp:4.5.0'
+
+    // for json objects
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    // Date/Time
     implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
 
     //Retrofit to serialize and deserialize objects to and from JSON
