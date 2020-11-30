@@ -10,13 +10,11 @@
 
 
     <ImageView
-
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#E3E3E3"
         android:layout_marginTop="90dp"
-
         app:srcCompat="@drawable/logo" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -28,10 +26,8 @@
         style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="240dp"
-        android:layout_centerInParent="true"
+        android:layout_centerInParent="true" />
 
-
-        />
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
         android:layout_width="90dp"
