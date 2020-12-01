@@ -6,6 +6,10 @@ package com.pixelintellect.insight.utils;
  * That is to say, for the whole life cycle of the application will use a single instance of this class.
  */
 
+import androidx.annotation.NonNull;
+
+import com.pixelintellect.insight.utils.models.ArticlesModel;
+import com.pixelintellect.insight.utils.models.NewsModel;
 import com.pixelintellect.insight.utils.models.ProvincialCumulativeConfirmedModel;
 import com.pixelintellect.insight.utils.models.TestingTimelineModel;
 
@@ -20,6 +24,7 @@ public class AppData {
     private static AppData instance;
     private ArrayList<ProvincialCumulativeConfirmedModel> provincialCumulativeConfirms;
     private ArrayList<TestingTimelineModel> testingTimelines;
+    private NewsModel newsModel;
 
     /**
      * The constructor is private to prevent instantiation out side of this class, use getInstance()
@@ -27,6 +32,10 @@ public class AppData {
     private AppData(){
         provincialCumulativeConfirms = new ArrayList<>();
         testingTimelines = new ArrayList<>();
+        newsModel = new NewsModel();
+        newsModel.setArticles(new ArrayList<ArticlesModel>()); // to avoid null pointer errors
+        newsModel.setStatus("");
+        newsModel.setTotalResults("0");
     }
 
     /**
@@ -450,6 +459,18 @@ public class AppData {
         } catch (Exception e){
             return "-";
         }
+    }
+
+    public NewsModel getNewsModel() {
+        return newsModel;
+    }
+
+    /**
+     *
+     * @param newsModel
+     */
+    public void setNewsModel(@NonNull NewsModel newsModel) {
+        this.newsModel = newsModel;
     }
 
     /**

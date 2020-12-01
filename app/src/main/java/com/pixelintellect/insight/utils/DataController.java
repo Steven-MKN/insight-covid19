@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.pixelintellect.insight.utils.models.NewsModel;
 import com.pixelintellect.insight.utils.models.ProvincialCumulativeConfirmedModel;
 import com.pixelintellect.insight.utils.models.TestingTimelineModel;
 
@@ -151,6 +152,49 @@ public class DataController {
                 sp.edit().putString(Constants.SP_TESTING_TIMELINE_ARRAY_LIST, new Gson().toJson(tests, token)).apply();
 
                 c.sendBroadcast(new Intent(action));
+            }
+        });
+    }
+
+    /**
+     *
+     * @param context
+     * @param action
+     */
+    public void retrieveNewsJson(final Context context, final String action){
+        retrofit2.Call<NewsModel> request;
+
+        request = ApiClient.getInstance().getApi().getCached();
+        request.enqueue(new retrofit2.Callback<NewsModel>() {
+            @Override
+            public void onResponse(retrofit2.Call<NewsModel> call, retrofit2.Response<NewsModel> response) {
+                NewsModel news = response.body();
+                Intent intent = new Intent(action);
+
+                if (news != null && response.isSuccessful() && news.getArticles() != null) {
+                    intent.putExtra(Constants.IS_SUCCESSFUL, true);
+
+                    Type token = new TypeToken<NewsModel>(){}.getType();
+                    sp.edit().putString(Constants.SP_NEWS, new Gson().toJson(news, token)).apply();
+
+                    AppData.getInstance().setNewsModel(news);
+
+                } else {
+                    intent.putExtra(Constants.IS_SUCCESSFUL, false);
+                }
+
+                context.sendBroadcast(intent);
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<NewsModel> call, Throwable t) {
+                Log.e(TAG, t.getMessage());
+                t.printStackTrace();
+
+                Intent intent = new Intent(action).putExtra(Constants.MESSAGE, t.getMessage());
+                intent.putExtra(Constants.IS_SUCCESSFUL, false);
+
+                context.sendBroadcast(intent);
             }
         });
     }
