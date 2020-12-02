@@ -222,8 +222,10 @@ public class OneDayFragment extends Fragment implements SwipeRefreshLayout.OnRef
             );
 
         barView.setData(barData);
-        barView.setScaleYEnabled(false);
-        barView.setDescription(new Description());
+
+        Description descrip = new Description();
+        descrip.setText("");
+        barView.setDescription(descrip);
     }
 
     public BarDataSet makeDataSet(String label, float value, int color, float index){

@@ -87,6 +87,7 @@ public class AllTimeFragment extends Fragment implements SwipeRefreshLayout.OnRe
         // display data
         Map<String, String> provincalPositives = AppData.getInstance().getProvincialPositives();
         BarChart barView = getView().findViewById(R.id.barChartAllTimePositives);
+        barView.clear();
 
         BarData barData = new BarData();
         barData.addDataSet(makeDataSet(
@@ -163,9 +164,11 @@ public class AllTimeFragment extends Fragment implements SwipeRefreshLayout.OnRe
             );
 
         barView.setData(barData);
-        barView.setDescription(new Description());
 
-        barView.animate();
+        Description d = new Description();
+        d.setText("");
+        barView.setDescription(d);
+
         tvBarUpdateDate.setText(provincalPositives.get(Constants.DATE));
     }
 
