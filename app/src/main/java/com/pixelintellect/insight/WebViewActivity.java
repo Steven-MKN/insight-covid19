@@ -8,13 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
-
-import com.google.android.material.textview.MaterialTextView;
+import android.widget.ImageView;
 
 public class WebViewActivity extends AppCompatActivity {
-WebView webView;
-String url;
+    private WebView webView;
+    private String url;
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +22,8 @@ String url;
 
         webView = findViewById(R.id.news_webView);
 
-
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
-
 
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -35,6 +32,12 @@ String url;
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl(url);
 
-
+        ImageView ivBack = findViewById(R.id.image_view_back);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }

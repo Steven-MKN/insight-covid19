@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,26 +12,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.pixelintellect.insight.Adapters.TopHeadlinesRecyclerAdapter;
-import com.pixelintellect.insight.utils.ApiClient;
 import com.pixelintellect.insight.utils.AppData;
 import com.pixelintellect.insight.utils.Constants;
 import com.pixelintellect.insight.utils.DataController;
 import com.pixelintellect.insight.utils.models.ArticlesModel;
-import com.pixelintellect.insight.utils.models.NewsModel;
+
+import org.apache.commons.codec.language.Metaphone;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class NewsFragment extends Fragment {
 
@@ -40,12 +41,14 @@ public class NewsFragment extends Fragment {
      * @return NewsFragment
      */
 
-    MaterialSearchBar searchBar;
-    RecyclerView newsRecyclerView;
-    TopHeadlinesRecyclerAdapter RecyclerAdapter;
-    SwipeRefreshLayout swipeRefreshLayout;
-
-    List<ArticlesModel> articlesModelList = new ArrayList<>();
+    private MaterialSearchBar searchBar;
+    private RecyclerView newsRecyclerView;
+    private TopHeadlinesRecyclerAdapter RecyclerAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private List<ArticlesModel> articlesModelList = new ArrayList<>();
+    private String TAG = getClass().getName();
+    private LinearLayout layoutResultsFor;
+    private TextView tvResultsFor;
 
     public static NewsFragment newInstance() {
         return new NewsFragment();
@@ -65,6 +68,16 @@ public class NewsFragment extends Fragment {
         newsRecyclerView = view.findViewById(R.id.top_headlines_recycler);
         searchBar = view.findViewById(R.id.searchBar);
         swipeRefreshLayout = view.findViewById(R.id.refreshLayout);
+        layoutResultsFor = view.findViewById(R.id.layout_results_for);
+        tvResultsFor = view.findViewById(R.id.text_view_results_for);
+
+        layoutResultsFor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getJsonData();
+                searchBar.setText("");
+            }
+        });
 
         getJsonData();
 
@@ -72,18 +85,19 @@ public class NewsFragment extends Fragment {
         searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
             @Override
             public void onSearchStateChanged(boolean enabled) {
-
+                if (!enabled){
+                    getJsonData();
+                }
             }
 
             @Override
             public void onSearchConfirmed(CharSequence text) {
-                searchNews();
-                swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        getJsonData();
-                    }
-                });
+                hideKeyBoard();
+
+                if (text != null && text.length() > 0)
+                    searchNews(text.toString());
+                else
+                    Toast.makeText(getContext(), "Nothing to search", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -104,11 +118,13 @@ public class NewsFragment extends Fragment {
     }
 
     public void getJsonData() {
+        layoutResultsFor.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(true);
 
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+
                 if (intent.getBooleanExtra(Constants.IS_SUCCESSFUL, false)) {
                     swipeRefreshLayout.setRefreshing(false);
                     articlesModelList.clear();
@@ -117,9 +133,12 @@ public class NewsFragment extends Fragment {
                     newsRecyclerView.setHasFixedSize(true);
                     newsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
                     newsRecyclerView.setAdapter(RecyclerAdapter);
+                    RecyclerAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(context, intent.getStringExtra(Constants.MESSAGE), Toast.LENGTH_SHORT).show();
                 }
+
+                context.unregisterReceiver(this);
             }
         };
 
@@ -131,8 +150,65 @@ public class NewsFragment extends Fragment {
 
     }
 
-    public void searchNews() {
+    public void searchNews(String text) {
+        // display search query
+        tvResultsFor.setText("Showing results for: " + text);
+        layoutResultsFor.setVisibility(View.VISIBLE);
 
+        Metaphone metaphone = new Metaphone();
+        metaphone.setMaxCodeLen(4);
+        String phoneticText = metaphone.encode(text);
+
+        Log.d(TAG, "search meta: " + phoneticText);
+
+        for (int i = 0; i < articlesModelList.size(); i++){
+            String[] phoneticInTitle = encode(articlesModelList.get(i).getTitle());
+
+            logEach(phoneticInTitle);
+
+            if (!contains(phoneticInTitle, phoneticText)){
+                articlesModelList.remove(i--);
+            }
+        }
+
+        RecyclerAdapter.notifyDataSetChanged();
     }
 
+    private String[] encode(String s){
+        Metaphone metaphone = new Metaphone();
+        metaphone.setMaxCodeLen(4);
+
+        String[] words = s.split(" ");
+        for (int i = 0; i < words.length ; i++){
+            words[i] = metaphone.encode(words[i]);
+        }
+
+        return words;
+    }
+
+    private boolean contains(String[] arr, String s){
+        boolean contained = false;
+        for (String a : arr){
+            if (a.equals(s)){
+                contained = true;
+                break;
+            }
+        }
+
+        return contained;
+    }
+
+    private void logEach(String[] arr){
+        if (Build.VERSION.SDK_INT >= 26)
+            Log.d(TAG, String.join(", ", arr));
+    }
+
+    private void hideKeyBoard() {
+        try {
+            ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getView().getWindowToken(), 0);
+        } catch (Exception e) {
+            Log.e(this.TAG, e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

@@ -28,28 +28,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="152dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/poppinsbold"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/insight_bulletin"
-                android:textColor="#000"
-                android:textSize="20sp" />
 
             <com.mancj.materialsearchbar.MaterialSearchBar
                 android:id="@+id/searchBar"
@@ -57,7 +45,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="70dp"
                 android:layout_marginEnd="20dp"
                 app:mt_hint="@string/search"
                 app:mt_maxSuggestionsCount="10"
@@ -68,54 +55,67 @@
 
     </RelativeLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_view_headlines"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-8dp"
+            android:fontFamily="@font/poppinsblack"
+            android:layout_alignParentLeft="true"
+            android:includeFontPadding="false"
+            android:layout_margin="10dp"
+            android:text="@string/top_headlines"
+            android:textColor="#000"
+            android:textSize="18sp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:id="@+id/layout_results_for"
+            android:layout_alignTop="@id/text_view_headlines"
+            android:layout_toRightOf="@id/text_view_headlines"
+            android:visibility="gone"
+            android:weightSum="1">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Showing results for: lorem text"
+                android:id="@+id/text_view_results_for"
+                android:layout_weight=".9"/>
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="-8dp"
-                    android:fontFamily="@font/poppinsblack"
-                    android:gravity="start"
-                    android:includeFontPadding="false"
-                    android:padding="10dp"
-                    android:text="@string/top_headlines"
-                    android:textColor="#000"
-                    android:textSize="18sp" />
-
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/refreshLayout"
-                android:layout_marginTop="48dp"
-                android:layout_width="match_parent"
-                android:layout_height="700dp">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/top_headlines_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginTop="45dp"
-                    android:padding="10dp" />
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-            </RelativeLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".1"
+                android:src="@drawable/ic_baseline_close_24"/>
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/text_view_headlines"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/top_headlines_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="45dp"
+                android:padding="10dp" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>
