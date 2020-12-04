@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,12 +35,15 @@ public class SettingsFragment extends Fragment {
     private final String TAG = "SettingsFragment";
     private Button btnPrivacyPolicy, btnWho, btnSaCoronavirus, btnGovChat;
     private Switch switchNotifications;
+    Intent intent;
+
 
     /**
      * Creates and returns anew instance of this class
+     *
      * @return SettingsFragment
      */
-    public static SettingsFragment newInstance(){
+    public static SettingsFragment newInstance() {
         Log.i("tag", "OneDayFragment");
         return new SettingsFragment();
     }
@@ -62,7 +66,10 @@ public class SettingsFragment extends Fragment {
         btnPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            openWebFor(getString(R.string.privacy_policy_url));
+                intent = new Intent(getActivity(), WebViewActivity.class);
+                intent.putExtra("url",getString(R.string.privacy_policy_url) );
+                startActivity(intent);
+
             }
         });
 
@@ -76,21 +83,29 @@ public class SettingsFragment extends Fragment {
         btnWho.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openWebFor(getString(R.string.who_url));
+
+                intent = new Intent(getActivity(), WebViewActivity.class);
+                intent.putExtra("url",getString(R.string.who_url));
+                startActivity(intent);
+
+
             }
         });
 
         btnSaCoronavirus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openWebFor(getString(R.string.sa_covid_url));
+                intent = new Intent(getActivity(), WebViewActivity.class);
+                intent.putExtra("url", getString(R.string.sa_covid_url));
+                startActivity(intent);
+
             }
         });
 
         btnGovChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(getString(R.string.sa_covid_chat_url)));
                 startActivity(intent);
             }
@@ -99,15 +114,15 @@ public class SettingsFragment extends Fragment {
         return view;
     }
 
-    private void openWebFor(String url){
+    private void openWebFor(String url) {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
     }
 
-    private void setSwitch(){
+    private void setSwitch() {
         JobScheduler scheduler = (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        if (scheduler != null){
+        if (scheduler != null) {
             if (Build.VERSION.SDK_INT >= 24) {
 
                 // if job is scheduled, set notifications as enabled
@@ -120,7 +135,7 @@ public class SettingsFragment extends Fragment {
                 // if job is scheduled, set notifications as enabled
                 List<JobInfo> jobs = scheduler.getAllPendingJobs();
                 boolean exists = false;
-                for (JobInfo job: jobs){
+                for (JobInfo job : jobs) {
                     if (job.getId() == 123) exists = true;
                 }
                 if (exists) switchNotifications.setChecked(true);
@@ -129,13 +144,13 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    private void changeJobScheduleState(CompoundButton buttonView, boolean isChecked){
+    private void changeJobScheduleState(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
             // used to run background task to check for updates when notifications are enabled
 
             ComponentName componentName = new ComponentName(getActivity().getApplicationContext(), UpdateJobService.class);
             JobInfo.Builder builder = new JobInfo.Builder(123, componentName)
-                .setPeriodic(60 * 60 * 1000);
+                    .setPeriodic(60 * 60 * 1000);
             builder.setPersisted(true);
 
             JobInfo jobInfo = builder.build();
@@ -165,7 +180,7 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    private void alert(String m){
+    private void alert(String m) {
         new AlertDialog.Builder(getContext(), R.style.Theme_AppCompat_Light_Dialog_Alert)
                 .setTitle("Refresh")
                 .setMessage(m)
