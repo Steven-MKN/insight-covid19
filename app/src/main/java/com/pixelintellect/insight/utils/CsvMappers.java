@@ -120,8 +120,8 @@ public class CsvMappers {
 
                 tests.add(new TestingTimelineModel(d,
                         parts[2],
-                        parts[3],
-                        parts[7]));
+                        parts[5],
+                        parts[9]));
 
             } catch (ParseException e){
                 Log.i(TAG, "date parse failed");

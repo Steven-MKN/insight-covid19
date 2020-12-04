@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 public class AppData {
     private static AppData instance;
@@ -153,7 +152,7 @@ public class AppData {
 
         if (foundAt == 0){
             // this is first record, no calculations needed
-            recovered = testingTimelines.get(foundAt).getDayRecovered();
+            recovered = testingTimelines.get(foundAt).getCumulativeRecovered();
         } else if (foundAt > 0) {
             // today's total less yesterday's total equals today's recoveries
             int x = foundAt;
@@ -162,8 +161,8 @@ public class AppData {
             TestingTimelineModel model = testingTimelines.get(x);
             TestingTimelineModel model2 = testingTimelines.get(y);
 
-            if (isDigit(model.getDayRecovered()) && isDigit(model2.getDayRecovered())) {
-                int todaysRecoveries = Integer.parseInt(model.getDayRecovered()) - Integer.parseInt(model2.getDayRecovered());
+            if (isDigit(model.getCumulativeRecovered()) && isDigit(model2.getCumulativeRecovered())) {
+                int todaysRecoveries = Integer.parseInt(model.getCumulativeRecovered()) - Integer.parseInt(model2.getCumulativeRecovered());
                 recovered = String.valueOf(todaysRecoveries);
             }
         }
@@ -413,9 +412,9 @@ public class AppData {
             do {
                 model = testingTimelines.get(x);
                 x--;
-            } while (!isDigit(model.getDayRecovered()));
+            } while (!isDigit(model.getCumulativeRecovered()));
 
-            return String.valueOf(model.getDayRecovered());
+            return String.valueOf(model.getCumulativeRecovered());
         } catch (Exception e){
             return "-";
         }

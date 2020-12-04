@@ -5,13 +5,13 @@ import java.util.Date;
 public class TestingTimelineModel {
     private Date date;
     private String cumulativeTests;
-    private String dayRecovered;
+    private String cumulativeRecovered;
     private String cumulativeDeaths;
 
-    public TestingTimelineModel(Date date, String cumulativeTests, String dayRecovered, String cumulativeDeaths) {
+    public TestingTimelineModel(Date date, String cumulativeTests, String cumulativeRecovered, String cumulativeDeaths) {
         this.date = date;
         this.cumulativeTests = cumulativeTests;
-        this.dayRecovered = dayRecovered;
+        this.cumulativeRecovered = cumulativeRecovered;
         this.cumulativeDeaths = cumulativeDeaths;
     }
 
@@ -31,12 +31,12 @@ public class TestingTimelineModel {
         this.cumulativeTests = cumulativeTests;
     }
 
-    public String getDayRecovered() {
-        return dayRecovered;
+    public String getCumulativeRecovered() {
+        return cumulativeRecovered;
     }
 
-    public void setDayRecovered(String dayRecovered) {
-        this.dayRecovered = dayRecovered;
+    public void setCumulativeRecovered(String cumulativeRecovered) {
+        this.cumulativeRecovered = cumulativeRecovered;
     }
 
     public String getCumulativeDeaths() {
