@@ -32,7 +32,7 @@ import java.util.List;
 
 public class SettingsFragment extends Fragment {
     private final String TAG = "SettingsFragment";
-    private Button btnPrivacyPolicy;
+    private Button btnPrivacyPolicy, btnWho, btnSaCoronavirus, btnGovChat;
     private Switch switchNotifications;
 
     /**
@@ -52,6 +52,9 @@ public class SettingsFragment extends Fragment {
         // init views
         btnPrivacyPolicy = view.findViewById(R.id.buttonPrivacyPolicy);
         switchNotifications = view.findViewById(R.id.switchNotifications);
+        btnWho = view.findViewById(R.id.button_who_website);
+        btnSaCoronavirus = view.findViewById(R.id.button_sacoronavirus_website);
+        btnGovChat = view.findViewById(R.id.button_sacoronavirus_chat);
 
         // used to run background task to check for updates when notifications are enabled
         JobScheduler scheduler = (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
@@ -125,7 +128,36 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        btnWho.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWebFor(getString(R.string.who_url));
+            }
+        });
+
+        btnSaCoronavirus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWebFor(getString(R.string.sa_covid_url));
+            }
+        });
+
+        btnGovChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(getString(R.string.sa_covid_chat_url)));
+                startActivity(intent);
+            }
+        });
+
         return view;
+    }
+
+    private void openWebFor(String url){
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 
     private void alert(String m){

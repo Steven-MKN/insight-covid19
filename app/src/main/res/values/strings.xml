@@ -25,4 +25,7 @@
     <string name="date_published">Date </string>
     <string name="website_url">website url</string>
     <string name="API_KEY">c0a96c06a6cc4e56a2d6bb33fd91975b</string>
+    <string name="who_url">https://www.who.int/health-topics/coronavirus</string>
+    <string name="sa_covid_url">https://sacoronavirus.co.za/</string>
+    <string name="sa_covid_chat_url">https://api.whatsapp.com/send?phone=27600123456</string>
 </resources>
