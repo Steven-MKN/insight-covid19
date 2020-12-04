@@ -28,4 +28,5 @@
     <string name="who_url">https://www.who.int/health-topics/coronavirus</string>
     <string name="sa_covid_url">https://sacoronavirus.co.za/</string>
     <string name="sa_covid_chat_url">https://api.whatsapp.com/send?phone=27600123456</string>
+    <string name="privacy_policy_url">https://stevenmokoena.co.za/insight/privacy-policy.html</string>
 </resources>

@@ -57,74 +57,19 @@ public class SettingsFragment extends Fragment {
         btnGovChat = view.findViewById(R.id.button_sacoronavirus_chat);
 
         // used to run background task to check for updates when notifications are enabled
-        JobScheduler scheduler = (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        if (scheduler != null){
-            if (Build.VERSION.SDK_INT >= 24) {
-
-                // if job is scheduled, set notifications as enabled
-                if (scheduler.getPendingJob(123) != null)
-                    switchNotifications.setChecked(true);
-                else switchNotifications.setChecked(false);
-
-            } else {
-
-                // if job is scheduled, set notifications as enabled
-                List<JobInfo> jobs = scheduler.getAllPendingJobs();
-                boolean exists = false;
-                for (JobInfo job: jobs){
-                    if (job.getId() == 123) exists = true;
-                }
-                if (exists) switchNotifications.setChecked(true);
-                else switchNotifications.setChecked(false);
-            }
-        }
+        setSwitch();
 
         btnPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String url = "https://stevenmokoena.co.za/insight/privacy-policy.html";
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
+            openWebFor(getString(R.string.privacy_policy_url));
             }
         });
 
         switchNotifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // used to run background task to check for updates when notifications are enabled
-
-                    ComponentName componentName = new ComponentName(getActivity().getApplicationContext(), UpdateJobService.class);
-                    JobInfo.Builder builder = new JobInfo.Builder(123, componentName)
-                            .setPeriodic(60 * 60 * 1000);
-                    builder.setPersisted(true);
-
-                    JobInfo jobInfo = builder.build();
-
-                    JobScheduler scheduler = (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
-                    String message = "";
-                    if (scheduler != null) {
-                        int result = scheduler.schedule(jobInfo);
-                        if (result == JobScheduler.RESULT_SUCCESS) {
-                            message = "notifications enabled";
-                        } else {
-                            buttonView.setChecked(false);
-                            message = "cannot schedule updates";
-                        }
-                    } else {
-                        buttonView.setChecked(false);
-                        message = "device not capable";
-                    }
-                    Log.i(TAG, message);
-                    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-                } else {
-                    // cancel job service (cancel checking for updates)
-                    JobScheduler scheduler = (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
-                    if (scheduler != null) scheduler.cancel(123);
-                    Log.i(TAG, "notifications disabled");
-                    Toast.makeText(getContext(), "notifications disabled", Toast.LENGTH_LONG).show();
-                }
+                changeJobScheduleState(buttonView, isChecked);
             }
         });
 
@@ -158,6 +103,66 @@ public class SettingsFragment extends Fragment {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
+    }
+
+    private void setSwitch(){
+        JobScheduler scheduler = (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        if (scheduler != null){
+            if (Build.VERSION.SDK_INT >= 24) {
+
+                // if job is scheduled, set notifications as enabled
+                if (scheduler.getPendingJob(123) != null)
+                    switchNotifications.setChecked(true);
+                else switchNotifications.setChecked(false);
+
+            } else {
+
+                // if job is scheduled, set notifications as enabled
+                List<JobInfo> jobs = scheduler.getAllPendingJobs();
+                boolean exists = false;
+                for (JobInfo job: jobs){
+                    if (job.getId() == 123) exists = true;
+                }
+                if (exists) switchNotifications.setChecked(true);
+                else switchNotifications.setChecked(false);
+            }
+        }
+    }
+
+    private void changeJobScheduleState(CompoundButton buttonView, boolean isChecked){
+        if (isChecked) {
+            // used to run background task to check for updates when notifications are enabled
+
+            ComponentName componentName = new ComponentName(getActivity().getApplicationContext(), UpdateJobService.class);
+            JobInfo.Builder builder = new JobInfo.Builder(123, componentName)
+                .setPeriodic(60 * 60 * 1000);
+            builder.setPersisted(true);
+
+            JobInfo jobInfo = builder.build();
+
+            JobScheduler scheduler = (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+            String message = "";
+            if (scheduler != null) {
+                int result = scheduler.schedule(jobInfo);
+                if (result == JobScheduler.RESULT_SUCCESS) {
+                    message = "notifications enabled";
+                } else {
+                    buttonView.setChecked(false);
+                    message = "cannot schedule updates";
+                }
+            } else {
+                buttonView.setChecked(false);
+                message = "device not capable";
+            }
+            Log.i(TAG, message);
+            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        } else {
+            // cancel job service (cancel checking for updates)
+            JobScheduler scheduler = (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+            if (scheduler != null) scheduler.cancel(123);
+            Log.i(TAG, "notifications disabled");
+            Toast.makeText(getContext(), "notifications disabled", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void alert(String m){

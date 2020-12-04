@@ -104,7 +104,7 @@ public class OneDayFragment extends Fragment implements SwipeRefreshLayout.OnRef
                             dates.get("late") // max selectable date
                     );
 
-                    datePickerFragment.show(getFragmentManager(), "date_picker");
+                    datePickerFragment.show(getChildFragmentManager(), "date_picker");
 
                 } catch (ParseException e){
                     Log.i(TAG, "date parse error");
