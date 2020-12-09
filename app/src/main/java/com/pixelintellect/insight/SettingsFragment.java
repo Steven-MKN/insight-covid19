@@ -66,10 +66,7 @@ public class SettingsFragment extends Fragment {
         btnPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(getActivity(), WebViewActivity.class);
-                intent.putExtra("url",getString(R.string.privacy_policy_url) );
-                startActivity(intent);
-
+                openWebFor(getString(R.string.privacy_policy_url));
             }
         });
 
@@ -83,31 +80,21 @@ public class SettingsFragment extends Fragment {
         btnWho.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                intent = new Intent(getActivity(), WebViewActivity.class);
-                intent.putExtra("url",getString(R.string.who_url));
-                startActivity(intent);
-
-
+                openWebFor(getString(R.string.who_url));
             }
         });
 
         btnSaCoronavirus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(getActivity(), WebViewActivity.class);
-                intent.putExtra("url", getString(R.string.sa_covid_url));
-                startActivity(intent);
-
+                openWebFor(getString(R.string.sa_covid_url));
             }
         });
 
         btnGovChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(getString(R.string.sa_covid_chat_url)));
-                startActivity(intent);
+                openApp(Uri.parse(getString(R.string.sa_covid_chat_url)));
             }
         });
 
@@ -115,9 +102,15 @@ public class SettingsFragment extends Fragment {
     }
 
     private void openWebFor(String url) {
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
-        startActivity(i);
+        intent = new Intent(getActivity(), WebViewActivity.class);
+        intent.putExtra("url", url);
+        startActivity(intent);
+    }
+
+    private void openApp(Uri uri) {
+        intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(uri);
+        startActivity(intent);
     }
 
     private void setSwitch() {
