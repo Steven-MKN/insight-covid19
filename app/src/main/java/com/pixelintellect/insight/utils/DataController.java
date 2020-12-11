@@ -234,7 +234,7 @@ public class DataController {
         retrieveConfirmedCasesProvincalCsv(context, Constants.ACTION_CSV + action);
         retrieveTestingTimelineCsv(context, Constants.ACTION_CSV + action);
 
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-YYYY");
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         Date date = new Date();
 
         Log.i(TAG, "last update: " + df.format(date));
