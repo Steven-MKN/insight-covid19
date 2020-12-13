@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "439822814012",
+    "project_id": "insight-covid19-bcd31",
+    "storage_bucket": "insight-covid19-bcd31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439822814012:android:4792ebe6e3e84b470f2c39",
+        "android_client_info": {
+          "package_name": "com.pixelintellect.insightcovid19"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439822814012-p5095vh7moh9u92fnle2du3ov37jne4j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEwGSo99MBjYhDOyRGyiJcwK10ipDHXog"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439822814012-p5095vh7moh9u92fnle2du3ov37jne4j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
