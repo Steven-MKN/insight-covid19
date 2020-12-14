@@ -68,6 +68,16 @@ public class AllTimeFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        displayFigures();
+
+        try {
+            setUpBarChart();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void displayFigures(){
         AppData appData = AppData.getInstance();
 
         tvdeathsNumber.setText(Converters.tallyToFormatString(appData.getDeaths()));
@@ -75,12 +85,6 @@ public class AllTimeFragment extends Fragment implements SwipeRefreshLayout.OnRe
         tvRecoveredNumber.setText(Converters.tallyToFormatString(appData.getRecovered()));
         tvTestsNumber.setText(Converters.tallyToFormatString(appData.getTests()));
         tvDate.setText(appData.getLatestDate());
-
-        try {
-            setUpBarChart();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
     private void setUpBarChart(){
@@ -197,6 +201,7 @@ public class AllTimeFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
 
                 // update data on this fragment
+                displayFigures();
                 try {
                     setUpBarChart();
                 } catch (Exception e){
