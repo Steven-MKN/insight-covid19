@@ -67,10 +67,10 @@ public class TopHeadlinesRecyclerAdapter extends RecyclerView.Adapter<TopHeadlin
         //now set values to elements in the card layouts
         final ArticlesModel articlesModel = articlesModelList.get(position);
         String imgUrl = articlesModel.getUrlToImage();
-        String webUrl = articlesModel.getUrl();
+        //String webUrl = articlesModel.getUrl();
         Picasso.get().load(imgUrl).into(holder.imageView);
-        Drawable drawable = holder.imageView.getDrawable();
-        holder.imageView.setBackground(drawable);
+//        Drawable drawable = holder.imageView.getDrawable();
+//        holder.imageView.setBackground(drawable);
         holder.headline.setText(articlesModel.getTitle());
         holder.description.setText(articlesModel.getDiscription());
         holder.source.setText(articlesModel.getSource().getName());
@@ -96,7 +96,7 @@ public class TopHeadlinesRecyclerAdapter extends RecyclerView.Adapter<TopHeadlin
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
         //attributes
-        RoundedImageView imageView;
+        ImageView imageView;
         MaterialTextView headline, description, source, publishedDate;
         MaterialCardView news_card;
 
